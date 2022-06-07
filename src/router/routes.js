@@ -40,6 +40,7 @@ const routes = [
   { path: '/profiles/add/profileLogin', component: () => import('pages/profiles/read/profile-login.vue'), name: 'profileLogin' },
 
   // arbitration portal
+  { path: '/resolve', component: () => import('pages/resolve/ResolvePortal.vue'), name: 'resolvePortal' },
   { path: '/resolve/elections', component: () => import('pages/resolve/elections.vue'), name: 'resolveElections' },
   { path: '/resolve/cases', component: null, name: 'resolveCases' }
 ]

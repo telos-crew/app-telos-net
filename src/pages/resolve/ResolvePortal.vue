@@ -1,0 +1,55 @@
+<template>
+  <div>
+    <section class="sub-header">
+      <h3>Resolve Portal</h3>
+    </section>
+    <div class="nav-tabs">
+      <div class="q-pa-md">
+        <div class="q-gutter-y-md" style="max-width: 600px">
+          <q-tabs v-model="tab" class="text-teal">
+            <q-tab name="mails" icon="mail" label="Elections" />
+            <q-tab name="alarms" icon="alarm" label="Case Files" />
+            <q-tab name="movies" icon="movie" label="Movies" />
+          </q-tabs>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      tab: 'mails'
+    }
+  }
+}
+</script>
+
+<style scoped>
+.sub-header {
+  margin-top: 20px;
+}
+
+.sub-header h3 {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.nav-tabs {
+  display: flex;
+  flex: 1;
+  margin-top: 20px;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.nav-tabs .q-gutter-y-md {
+  max-width: 100% !important;
+}
+
+.nav-tabs .q-tab {
+  padding: 0 72px;
+}
+</style>
