@@ -37,7 +37,11 @@ const routes = [
   { path: '/profiles/contacts', component: () => import('pages/profiles/list/contact-list.vue'), meta: { needVerifyComm: true, needBackendLogin: false } },
   { path: '/profiles/myProfile', component: () => import('pages/profiles/read/my-profile.vue'), meta: { needBackendLogin: false }, name: 'myProfile' },
   { path: '/profiles/contacts/profileDetail', component: () => import('pages/profiles/read/profile-detail.vue'), meta: { needVerifyComm: true, needBackendLogin: false }, name: 'profileDetail' },
-  { path: '/profiles/add/profileLogin', component: () => import('pages/profiles/read/profile-login.vue'), name: 'profileLogin' }
+  { path: '/profiles/add/profileLogin', component: () => import('pages/profiles/read/profile-login.vue'), name: 'profileLogin' },
+
+  // arbitration portal
+  { path: '/resolve/elections', component: () => import('pages/resolve/elections.vue'), name: 'resolveElections' },
+  { path: '/resolve/cases', component: null, name: 'resolveCases' }
 ]
 
 // Always leave this as last one

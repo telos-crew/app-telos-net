@@ -48,6 +48,14 @@ export default {
           color: 'primary',
           description: 'Create, issue and discover tokens',
           route: '/tokens'
+        },
+        {
+          title: '<b>Resolve</b> Disputes',
+          img: '../statics/app-icons/bar-chart.svg',
+          icon: 'savings',
+          color: 'primary',
+          description: 'Resolve disagreements something something',
+          route: '/resolve'
         }
       ]
     }
