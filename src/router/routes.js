@@ -1,3 +1,5 @@
+import { resolveRoutes } from '../pages/resolve/routes'
+
 const routes = [
   { path: '/', component: () => import('pages/index.vue'), meta: { layout: 'empty', guest: true } },
   { path: '/login', component: () => import('pages/login/login.vue'), meta: { layout: 'guest', title: 'pages.login.title', guest: true } },
@@ -40,9 +42,12 @@ const routes = [
   { path: '/profiles/add/profileLogin', component: () => import('pages/profiles/read/profile-login.vue'), name: 'profileLogin' },
 
   // arbitration portal
-  { path: '/resolve', component: () => import('pages/resolve/ResolvePortal.vue'), name: 'resolvePortal' },
-  { path: '/resolve/elections', component: () => import('pages/resolve/elections.vue'), name: 'resolveElections' },
-  { path: '/resolve/cases', component: null, name: 'resolveCases' }
+  { path: '/resolve',
+    component: () => import('pages/resolve/ResolvePortal.vue'),
+    name: 'resolvePortal',
+    children: [
+      ...resolveRoutes
+    ] }
 ]
 
 // Always leave this as last one
