@@ -4,6 +4,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
+function extendTypescriptToWebpack (cfg) {
+  // added the type-script supports
+  cfg.resolve.extensions.push('.ts')
+  cfg.module.rules.push({
+    test: /\.ts$/,
+    loader: 'ts-loader',
+    options: { appendTsSuffixTo: [/\.vue$/] }
+  })
+}
+
 module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
@@ -152,6 +162,7 @@ module.exports = function (ctx) {
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       extendWebpack (cfg) {
+        extendTypescriptToWebpack(cfg)
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
