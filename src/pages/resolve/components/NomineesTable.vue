@@ -1,27 +1,42 @@
 <template>
-<div class="q-pa-md">
-<q-table title="Nominees" :data="nomineeData" :columns="columns" :rows="nomineeData" row-key="name">
-<template v-slot:body-cell-nominee_name="props">
-<q-td :props="props">
-{{ props.row.nominee_name }} hello
-</q-td>
-</template>
-</q-table>
-</div>
+  <div class="q-pa-md">
+    <q-table
+      title="Nominees"
+      :data="nomineeData"
+      :columns="columns"
+      :rows="nomineeData"
+      row-key="name"
+    >
+      <template v-slot:body-cell-nominee_name="props">
+        <q-td :props="props">
+					<profile-avatar :account_name="props.nominee_name" size="24px" childClass="profile-avatar"></profile-avatar>
+						<span>{{props.row.nominee_name}}</span>
+					</q-td>
+			</template>
+    </q-table>
+  </div>
 </template>
 
 <script>
 import { GET_TABLE_ROWS } from '../util/fetch'
+import ProfileAvatar from '../../../components/common/ProfileAvatar.vue'
 
 export default {
-  components: {
-  },
+  components: { ProfileAvatar },
   data () {
     return {
       columns: [
         { name: 'nominee_name', label: 'Nominee', field: 'nominee_name' },
-        { name: 'credentials_link', label: 'Credentials', field: 'credentials_link' },
-        { name: 'application_time', label: 'Applied', field: 'application_time' }
+        {
+          name: 'credentials_link',
+          label: 'Credentials',
+          field: 'credentials_link'
+        },
+        {
+          name: 'application_time',
+          label: 'Applied',
+          field: 'application_time'
+        }
       ],
       nomineeData: []
     }
@@ -48,5 +63,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.profile-avatar {
+	display: inline;
+	margin-right: 8px;
+}
 </style>
