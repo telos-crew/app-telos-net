@@ -23,7 +23,7 @@
             {{ props.row.end_voting_ts }}
           </q-td>
           <q-td key="status" :props="props">
-            {{ props.row.status }}
+            {{ ELECTION_STATUS[props.row.status] }}
           </q-td>
         </q-tr>
       </template>
@@ -34,6 +34,7 @@
 <script>
 import { GET_TABLE_ROWS } from '../util/fetch'
 import CandidatesCell from './CandidatesCell.vue'
+import { ELECTION_STATUS } from '../constants'
 
 export default {
   components: {
@@ -51,7 +52,8 @@ export default {
         { name: 'end_voting_ts', label: 'End Voting', field: 'end_voting_ts' },
         { name: 'status', label: 'Status', field: 'status' }
       ],
-      electionData: []
+      electionData: [],
+      ELECTION_STATUS
     }
   },
   methods: {
