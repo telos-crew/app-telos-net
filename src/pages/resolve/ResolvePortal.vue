@@ -7,7 +7,9 @@
       <div class="q-pa-md">
         <div class="q-gutter-y-md" style="max-width: 600px">
           <q-tabs v-model="tab" class="text-teal">
-            <q-tab name="mails" icon="mail" label="Elections" />
+            <router-link to="/resolve/elections">
+              <q-tab name="mails" icon="mail" label="Elections" />
+            </router-link>
             <q-tab name="alarms" icon="alarm" label="Case Files" />
             <q-tab name="movies" icon="movie" label="Movies" />
           </q-tabs>
@@ -37,7 +39,11 @@ export default {
   margin: 0 auto;
   text-align: center;
 }
-
+a:-webkit-any-link {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
 .nav-tabs {
   display: flex;
   flex: 1;
