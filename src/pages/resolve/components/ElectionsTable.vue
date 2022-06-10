@@ -22,6 +22,9 @@
           <q-td key="end_voting_ts" :props="props">
             {{ props.row.end_voting_ts }}
           </q-td>
+          <q-td key="status" :props="props">
+            {{ props.row.status }}
+          </q-td>
         </q-tr>
       </template>
     </q-table>
@@ -45,7 +48,8 @@ export default {
         { name: 'candidates', label: 'Candidates', field: 'candidates' },
         { name: 'available_seats', label: 'Seats', field: 'available_seats' },
         { name: 'begin_voting_ts', label: 'Start Voting', field: 'begin_voting_ts' },
-        { name: 'end_voting_ts', label: 'End Voting', field: 'end_voting_ts' }
+        { name: 'end_voting_ts', label: 'End Voting', field: 'end_voting_ts' },
+        { name: 'status', label: 'Status', field: 'status' }
       ],
       electionData: []
     }

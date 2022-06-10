@@ -4,6 +4,7 @@
       <li v-for="candidate of props.row.candidates" v-bind:key="candidate.name">
         <profile-avatar v-bind:account_name="candidate.name" class="avatar-wrap" size="24px"></profile-avatar>
         {{candidate.name}}
+        ({{ candidate.votes }})
       </li>
     </ul>
   </q-td>
