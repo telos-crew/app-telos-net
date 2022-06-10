@@ -2,7 +2,7 @@
   <q-td key="candidates" :props="props">
     <ul>
       <li v-for="candidate of props.row.candidates" v-bind:key="candidate.name">
-        <profile-avatar v-bind:account_name="candidate.name" class="avatar-wrap"></profile-avatar>
+        <profile-avatar v-bind:account_name="candidate.name" class="avatar-wrap" size="24px"></profile-avatar>
         {{candidate.name}}
       </li>
     </ul>

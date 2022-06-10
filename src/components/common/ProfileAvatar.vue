@@ -1,6 +1,6 @@
 <template>
 <div v-if="avatar">
-<q-avatar size="36px">
+<q-avatar v-bind:size="size">
 <img v-bind:src="avatar" />
 </q-avatar>
 </div>
@@ -9,7 +9,7 @@
 <script>
 import { GET_TABLE_ROWS } from '../../pages/resolve/util/fetch'
 export default {
-  props: ['account_name'],
+  props: ['account_name', 'size'],
   data () {
     return {
       avatar: ''
