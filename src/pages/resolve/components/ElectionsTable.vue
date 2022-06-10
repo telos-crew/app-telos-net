@@ -52,12 +52,12 @@ export default {
   },
   methods: {
     async fetchElections () {
-      console.log('fetching elections')
       try {
         const { rows } = await GET_TABLE_ROWS({
           code: 'testtelosarb',
           scope: 'testtelosarb',
-          table: 'elections'
+          table: 'elections',
+          reverse: true
         })
         // console.log('fetchElections data: ', data)
         this.electionData = rows
