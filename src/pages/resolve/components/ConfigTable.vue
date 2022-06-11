@@ -12,12 +12,33 @@
 						<span>&nbsp;{{props.row.admin}}</span>
 					</q-td>
 			</template>
+      <template v-slot:body-cell-arb_term_length="props">
+        <q-td :props="props">
+						<span>{{arbTermDuration}}</span>
+					</q-td>
+			</template>
+      <template v-slot:body-cell-election_add_candidates_ts="props">
+        <q-td :props="props">
+						<span>{{addCandidatesDuration}}</span>
+					</q-td>
+			</template>
+      <template v-slot:body-cell-election_voting_ts="props">
+        <q-td :props="props">
+						<span>{{electionDuration}}</span>
+					</q-td>
+			</template>
+      <template v-slot:body-cell-runoff_election_voting_ts="props">
+        <q-td :props="props">
+						<span>{{runoffElectionDuration}}</span>
+					</q-td>
+			</template>
     </q-table>
   </div>
 </template>
 
 <script>
 import ProfileAvatar from 'src/components/common/ProfileAvatar.vue'
+import { secondsToDhms } from '../util'
 
 export default {
   components: {
@@ -37,6 +58,20 @@ export default {
         // { name: 'admin', label: 'Admin', field: 'admin' },
         // { name: 'admin', label: 'Admin', field: 'admin' },
       ]
+    }
+  },
+  computed: {
+    arbTermDuration () {
+      return secondsToDhms(this.config[0].arb_term_length)
+    },
+    electionDuration () {
+      return secondsToDhms(this.config[0].election_voting_ts)
+    },
+    addCandidatesDuration () {
+      return secondsToDhms(this.config[0].election_add_candidates_ts)
+    },
+    runoffElectionDuration () {
+      return secondsToDhms(this.config[0].runoff_election_voting_ts)
     }
   }
 }
