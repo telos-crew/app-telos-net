@@ -28,7 +28,7 @@ export default {
   components: { ProfileAvatar },
   data () {
     return {
-      config: this.$store.config,
+      config: this.$store.state.resolve.config,
       columns: [
         { name: 'nominee_name', label: 'Nominee', field: 'nominee_name' },
         {

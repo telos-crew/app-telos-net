@@ -7,10 +7,12 @@
       <div class="q-pa-md">
         <div class="q-gutter-y-md" style="max-width: 600px">
           <q-tabs v-model="tab" class="text-teal">
+            <router-link to="/resolve/">
+              <q-tab name="home" icon="home" label="Home" />
+            </router-link>
             <router-link to="/resolve/elections">
               <q-tab name="mails" icon="mail" label="Elections" />
             </router-link>
-            <q-tab name="alarms" icon="alarm" label="Case Files" />
             <q-tab name="movies" icon="movie" label="Movies" />
           </q-tabs>
         </div>
@@ -48,7 +50,6 @@ export default {
   },
   mounted: function () {
     this.fetchArbConfig()
-    console.log('resolve mounted', this.$store)
   }
 }
 </script>
