@@ -1,5 +1,8 @@
 <template>
   <div class="q-pa-md">
+    <q-banner inline-actions class="text-white bg-red" v-if="isPastAddCandidates">
+      Candidacy nomination period for current election has already passed
+    </q-banner>
     <q-table
       title="Nominees"
       :data="nomineeData"
@@ -25,6 +28,7 @@ export default {
   components: { ProfileAvatar },
   data () {
     return {
+      config: this.$store.config,
       columns: [
         { name: 'nominee_name', label: 'Nominee', field: 'nominee_name' },
         {
@@ -54,9 +58,18 @@ export default {
       } catch (err) {
         console.warn('fetchNominees error: ', err)
       }
+    },
+    isPastAddCandidates () {
+      let result = false
+      const end = new Date(this.config.end_add_candidates_ts)
+      const now = new Date()
+      if (now > end) {
+        result = true
+      }
+      return result
     }
   },
-  mounted: function () {
+  beforeMount: function () {
     console.log('nominees mounted')
     this.fetchNominees()
   }
