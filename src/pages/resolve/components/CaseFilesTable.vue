@@ -18,6 +18,14 @@
 						<span>&nbsp;{{props.row.respondant}}</span>
 					</q-td>
 			</template>
+      <template v-slot:body-cell-arbitrators="props">
+        <q-td :props="props">
+					<div v-for="arbitrator of props.row.arbitrators" v-bind:key="arbitrator" class="arbitrator-cell">
+						<profile-avatar :account_name="arbitrator" size="24px" childClass="profile-avatar"></profile-avatar>
+						<span>&nbsp;{{arbitrator}}</span>
+					</div>
+				</q-td>
+			</template>
     </q-table>
   </div>
 </template>
@@ -53,7 +61,8 @@ export default {
         const { rows } = await GET_TABLE_ROWS({
           code: 'testtelosarb',
           scope: 'testtelosarb',
-          table: 'casefiles'
+          table: 'casefiles',
+          reverse: true
         })
         console.log('fetchCaseFiles rows: ', rows)
         this.caseFiles = rows
@@ -69,5 +78,7 @@ export default {
 </script>
 
 <style scoped>
-
+.arbitrator-cell {
+	padding: 10px 0;
+}
 </style>
