@@ -8,6 +8,7 @@
 <script>
 import ElectionsTable from '../../components/ElectionsTable.vue'
 import NomineesTable from '../../components/NomineesTable.vue'
+
 export default {
   components: {
     ElectionsTable,

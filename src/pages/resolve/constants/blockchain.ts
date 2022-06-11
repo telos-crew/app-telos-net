@@ -1,13 +1,15 @@
 import axios from 'axios'
 import { TableRowsConfig, Config } from '../types';
 
-const NEXT_PUBLIC_ARBITRATION_CONTRACT = process.env.NEXT_PUBLIC_ARBITRATION_CONTRACT
-const NEXT_PUBLIC_TELOS_API_ENDPOINT = process.env.NEXT_PUBLIC_TELOS_API_ENDPOINT
-const TABLE_ROWS_ENDPOINT = 'v1/chain/get_table_rows'
+const NETWORK_HOST = process.env.NETWORK_HOST
+const NETWORK_PROTOCOL = process.env.NETWORK_PROTOCOL
+
+const TABLE_ROWS_SUFFIX = 'v1/chain/get_table_rows'
+const TABLE_ROWS_ENDPOINT = `${NETWORK_PROTOCOL}://${NETWORK_HOST}/${TABLE_ROWS_SUFFIX}`
 
 export const GET_TABLE_ROWS = async (config: TableRowsConfig): Promise<{rows: any[]}> => {
 	const { data } = await axios({
-		url: `${NEXT_PUBLIC_TELOS_API_ENDPOINT}/${TABLE_ROWS_ENDPOINT}`,
+		url: TABLE_ROWS_ENDPOINT,
 		method: 'post',
 		headers: {
 			'content-type': 'application/json'

@@ -21,11 +21,34 @@
 </template>
 
 <script>
+import { GET_TABLE_ROWS } from './constants'
+
 export default {
   data () {
     return {
       tab: 'mails'
     }
+  },
+  methods: {
+    async fetchArbConfig () {
+      try {
+        const { rows } = await GET_TABLE_ROWS({
+          code: 'testtelosarb',
+          scope: 'testtelosarb',
+          table: 'config',
+          reverse: false
+        })
+        const [config] = rows
+        this.configData = config
+        this.$store.commit('resolve/setArbConfig', config)
+      } catch (err) {
+        console.warn('fetchConfig error: ', err)
+      }
+    }
+  },
+  mounted: function () {
+    this.fetchArbConfig()
+    console.log('resolve mounted', this.$store)
   }
 }
 </script>

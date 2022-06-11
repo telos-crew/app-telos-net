@@ -13,6 +13,7 @@ import validators from './validators'
 import testnet from './testnet'
 import poc from './poc'
 import general from './general'
+import resolve from './resolve'
 
 Vue.use(Vuex)
 Vue.component('v-gravatar', Gravatar)
@@ -35,7 +36,8 @@ export default function (/* { ssrContext } */) {
       trails,
       transfers,
       validators,
-      general
+      general,
+      resolve
     },
 
     // enable strict mode (adds overhead!)
