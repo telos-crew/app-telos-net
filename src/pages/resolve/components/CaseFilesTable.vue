@@ -73,7 +73,6 @@ export default {
   },
   methods: {
     goToCaseFile (caseFileId) {
-      console.log('goToCaseFile', caseFileId)
       this.$router.push({ path: `case-file/${caseFileId}`, params: { caseFileId } })
     },
     async fetchCaseFiles () {
@@ -84,7 +83,6 @@ export default {
           table: 'casefiles',
           reverse: true
         })
-        console.log('fetchCaseFiles rows: ', rows)
         this.caseFiles = rows
       } catch (err) {
         console.log('fetch case files error:', err)
