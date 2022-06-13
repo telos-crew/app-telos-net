@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-md">
     <q-table
-			grid
       title="Case"
       :data="caseFile"
       :columns="columns"
