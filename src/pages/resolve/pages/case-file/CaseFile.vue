@@ -42,6 +42,7 @@
 				</q-td>
 			</template>
     </q-table>
+		<br /><br />
 		<claims-table></claims-table>
   </div>
 </template>
