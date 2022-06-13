@@ -26,6 +26,21 @@
 					</div>
 				</q-td>
 			</template>
+      <template v-slot:body-cell-actions="props">
+        <q-td :props="props">
+					<div>
+            <q-btn-dropdown color="primary" label="Actions">
+              <q-list>
+                <q-item clickable v-close-popup @click="goToCaseFile(props.row.case_id)">
+                  <q-item-section>
+                    <q-item-label>View</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+					</div>
+				</q-td>
+			</template>
     </q-table>
   </div>
 </template>
@@ -51,11 +66,16 @@ export default {
         { name: 'required_langs', label: 'Lang', field: 'required_langs' },
         { name: 'case_status', label: 'Status', field: 'case_status' },
         { name: 'case_ruling', label: 'Ruling', field: 'case_ruling' },
-        { name: 'update_ts', label: 'Last Updated', field: 'update_ts' }
+        { name: 'update_ts', label: 'Last Updated', field: 'update_ts' },
+        { name: 'actions', label: 'Actions', field: 'actions' }
       ]
     }
   },
   methods: {
+    goToCaseFile (caseFileId) {
+      console.log('goToCaseFile', caseFileId)
+      this.$router.push({ path: `case-file/${caseFileId}`, params: { caseFileId } })
+    },
     async fetchCaseFiles () {
       try {
         const { rows } = await GET_TABLE_ROWS({
