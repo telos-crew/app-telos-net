@@ -42,14 +42,19 @@
 				</q-td>
 			</template>
     </q-table>
+		<claims-table></claims-table>
   </div>
 </template>
 
 <script>
 import { GET_TABLE_ROWS } from '../../constants'
+import ClaimsTable from '../../components/ClaimsTable.vue'
 
 export default {
   props: ['id'],
+  components: {
+    ClaimsTable
+  },
   data () {
     return {
       caseFile: [],
