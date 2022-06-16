@@ -28,6 +28,11 @@
 						<span>{{props.row.nominee_name}}</span>
 					</q-td>
 			</template>
+      <template v-slot:body-cell-actions="props">
+        <q-td :props="props">
+            <q-btn v-if="isRemoveSelfButtonVisible(props.row.nominee_name)" color="red" label="Remove" @click="removeSelf" />
+        </q-td>
+			</template>
     </q-table>
     <nominate-self-modal :dialogName="nominate" :close="closeModal" :onSubmit="fetchNominees"></nominate-self-modal>
   </div>
@@ -48,16 +53,21 @@ export default {
       nominate: false,
       config: this.$store.state.resolve.config,
       columns: [
-        { name: 'nominee_name', label: 'Nominee', field: 'nominee_name' },
-        {
+        { name: 'nominee_name',
+          label: 'Nominee',
+          field: 'nominee_name'
+        }, {
           name: 'credentials_link',
           label: 'Credentials',
           field: 'credentials_link'
-        },
-        {
+        }, {
           name: 'application_time',
           label: 'Applied',
           field: 'application_time'
+        }, {
+          name: 'actions',
+          label: 'Actions',
+          field: 'actions'
         }
       ],
       nomineeData: []
@@ -86,6 +96,28 @@ export default {
       }
       return result
     },
+    isRemoveSelfButtonVisible (nomineeName) {
+      const account = this.$store.getters['accounts/account']
+      const isRowNominee = nomineeName === account
+      console.log('isRemoveSelfButtonVisible account: ', account, 'nomineeName: ', nomineeName)
+      if (isRowNominee) return true
+      return false
+    },
+    async removeSelf () {
+      const unregNomineeActions = [{
+        account: 'testtelosarb',
+        name: 'unregnominee',
+        data: {
+          nominee: this.$store.getters['accounts/account']
+        }
+      }]
+      try {
+        await this.$store.$api.signTransaction(unregNomineeActions)
+        setTimeout(this.fetchNominees, 5000)
+      } catch (err) {
+        console.log('removeSelf error: ', err)
+      }
+    },
     closeModal () {
       console.log('closeModal')
       this.nominate = false
@@ -94,7 +126,8 @@ export default {
   computed: {
     isNominateButtonVisible () {
       const isAuthenticated = this.$store.getters['accounts/isAuthenticated']
-      const isAlreadyNominated = this.nomineeData.find(nominee => nominee.nominee_name === this.account)
+      const account = this.$store.getters['accounts/account']
+      const isAlreadyNominated = this.nomineeData.find(nominee => nominee.nominee_name === account)
       if (isAuthenticated && !isAlreadyNominated) return true
       return false
     }
