@@ -31,7 +31,7 @@
 import { validateIpfsHash } from '../util'
 
 export default {
-  props: ['dialogName', 'close'],
+  props: ['dialogName', 'close', 'onSubmit'],
   data () {
     return {
       credentialsLink: ''
@@ -68,6 +68,7 @@ export default {
       try {
         await this.$store.$api.signTransaction(nominateSelfActions)
         this.close()
+        setTimeout(this.onSubmit, 5000)
       } catch (err) {
         console.log('nominateSelf error: ', err)
       }

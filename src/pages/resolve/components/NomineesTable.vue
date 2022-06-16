@@ -17,8 +17,7 @@
           </div>
           <div class="header-buttons">
             <div class="q-pa-md q-gutter-sm">
-              <q-btn color="primary" label="Nominate Self" @click="nominate = true" />
-              <q-btn color="white" text-color="black" label="Standard" />
+              <q-btn v-if="isNominateButtonVisible" color="primary" label="Nominate Self" @click="nominate = true" />
             </div>
           </div>
         </div>
@@ -30,7 +29,7 @@
 					</q-td>
 			</template>
     </q-table>
-    <nominate-self-modal :dialogName="nominate" :close="closeModal"></nominate-self-modal>
+    <nominate-self-modal :dialogName="nominate" :close="closeModal" :onSubmit="fetchNominees"></nominate-self-modal>
   </div>
 </template>
 
@@ -90,6 +89,14 @@ export default {
     closeModal () {
       console.log('closeModal')
       this.nominate = false
+    }
+  },
+  computed: {
+    isNominateButtonVisible () {
+      const isAuthenticated = this.$store.getters['accounts/isAuthenticated']
+      const isAlreadyNominated = this.nomineeData.find(nominee => nominee.nominee_name === this.account)
+      if (isAuthenticated && !isAlreadyNominated) return true
+      return false
     }
   },
   beforeMount: function () {
