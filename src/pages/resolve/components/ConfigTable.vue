@@ -54,7 +54,7 @@ export default {
         { name: 'election_add_candidates_ts', label: 'Add Election Nominees', field: 'election_add_candidates_ts' },
         { name: 'election_voting_ts', label: 'Election Duration', field: 'election_voting_ts' },
         { name: 'max_elected_arbs', label: 'Arbitrator Count', field: 'max_elected_arbs' },
-        { name: 'runoff_election_voting_ts', label: 'Runoff Election Duration', field: 'runoff_election_voting_ts' }
+        { name: 'runoff_election_voting_ts', label: 'Runoff Duration', field: 'runoff_election_voting_ts' }
       ]
     }
   },
