@@ -1,27 +1,80 @@
 <template>
 	<q-dialog v-model="dialogName" persistent>
-		<q-card style="min-width: 350px">
+		<q-card style="min-width: 450px">
 			<q-card-section>
-				<div class="text-h6">Your address</div>
+				<div class="text-h6">Nominate Self ({{account_name}})</div>
 			</q-card-section>
 
 			<q-card-section class="q-pt-none">
-				<q-input dense autofocus />
+				<q-input
+          filled
+          v-model="credentialsLink"
+          label="Credentials Link"
+          bottom-slots
+          hint="46 or 49 character IPFS hash"
+          error-message="Must be valid IPFS hash (ie 'Qmdn7bZ8z25b...')"
+          dense
+          autofocus
+          :error="!isCredentialsLinkValid"
+        />
 			</q-card-section>
 
 			<q-card-actions align="right" class="text-primary">
-				<q-btn flat label="Cancel" v-close-popup />
-				<q-btn flat label="Add address" v-close-popup />
+				<q-btn flat label="Submit" @click="nominateSelf" :disable="!isCredentialsLinkValid" />
+				<q-btn flat label="Cancel" @click="close" />
 			</q-card-actions>
 		</q-card>
 	</q-dialog>
 </template>
 
 <script>
+import { validateIpfsHash } from '../util'
+
 export default {
-  props: ['dialogName'],
+  props: ['dialogName', 'close'],
+  data () {
+    return {
+      credentialsLink: ''
+    }
+  },
+  computed: {
+    isCredentialsLinkValid () {
+      return validateIpfsHash(this.credentialsLink)
+    },
+    account_name () {
+      return this.$store.state.accounts.account
+    }
+    // dialogNameValue: {
+    //   get () {
+    //     return this.dialogName
+    //   },
+    //   set (newValue) {
+    //     this.dialogName = newValue
+    //   }
+    // }
+  },
+  methods: {
+    async nominateSelf () {
+      const nominateSelfActions = [
+        {
+          account: 'testtelosarb',
+          name: 'regarb',
+          data: {
+            credentials_link: this.credentialsLink,
+            nominee: this.account_name
+          }
+        }
+      ]
+      try {
+        await this.$store.$api.signTransaction(nominateSelfActions)
+        this.close()
+      } catch (err) {
+        console.log('nominateSelf error: ', err)
+      }
+    }
+  },
   mounted: function () {
-    console.log('nominateSelfModal mounted, this.dialogName', this.dialogName)
+    console.log('nominateSelfModal mounted, this.$store.state', this.$store.state)
   }
 }
 

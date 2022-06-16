@@ -30,7 +30,7 @@
 					</q-td>
 			</template>
     </q-table>
-    <nominate-self-modal :dialogName="nominate"></nominate-self-modal>
+    <nominate-self-modal :dialogName="nominate" :close="closeModal"></nominate-self-modal>
   </div>
 </template>
 
@@ -86,6 +86,10 @@ export default {
         result = true
       }
       return result
+    },
+    closeModal () {
+      console.log('closeModal')
+      this.nominate = false
     }
   },
   beforeMount: function () {
