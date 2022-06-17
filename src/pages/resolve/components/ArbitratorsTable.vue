@@ -22,6 +22,13 @@
 						<span v-for="id in props.row.closed_case_ids" v-bind:key="id">{{id}}<br /></span>
 					</q-td>
 			</template>
+      <template v-slot:body-cell-credentials_link="props">
+        <q-td :props="props">
+						<ipfs-link v-bind:key="id" :hash="props.row.credentials_link">
+              {{props.row.credentials_link}}
+            </ipfs-link>
+					</q-td>
+			</template>
       <template v-slot:body-cell-arb_status="props">
         <q-td :props="props">
 						<span>{{getArbStatus(props.row.arb_status)}}</span>
@@ -34,10 +41,12 @@
 <script>
 import ProfileAvatar from 'src/components/common/ProfileAvatar.vue'
 import { ARBITRATOR_STATUS_LIST } from '../constants/arbitrators'
+import IpfsLink from './IpfsLink.vue'
 
 export default {
   components: {
-    ProfileAvatar
+    ProfileAvatar,
+    IpfsLink
   },
   data () {
     return {
