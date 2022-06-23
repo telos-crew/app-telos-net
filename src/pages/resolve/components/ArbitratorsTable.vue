@@ -75,10 +75,18 @@ export default {
           table: 'arbitrators'
         })
         console.log('fetchArbitrators rows: ', rows)
-        this.arbitratorsData = rows
+        this.arbitratorsData = rows.filter(item => {
+          console.log('item: ', item)
+          console.log(typeof item.term_expiration)
+          if (new Date(item.term_expiration).getTime() > Date.now()) return false
+        })
       } catch (err) {
         console.log('fetchArbitrators error: ', err)
       }
+    },
+    isArbExpired (props) {
+      console.log('isArbExpired props: ', props)
+      return false
     }
   },
   mounted: function () {
