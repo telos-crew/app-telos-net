@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md">
-    <q-banner inline-actions class="text-white bg-red" v-if="isPastAddCandidates">
+    <!-- <q-banner inline-actions class="text-white bg-red" v-if="isPastAddCandidates">
       Candidacy nomination period for current election has already passed
-    </q-banner>
+    </q-banner> -->
     <q-table
       title="Nominees"
       :data="nomineeData"
