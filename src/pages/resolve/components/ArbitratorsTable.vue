@@ -24,10 +24,10 @@
 			</template>
       <template v-slot:body-cell-credentials_link="props">
         <q-td :props="props">
-						<ipfs-link v-bind:key="id" :hash="props.row.credentials_link">
-              {{props.row.credentials_link}}
-            </ipfs-link>
-					</q-td>
+          <ipfs-link v-bind:key="id" :hash="props.row.credentials_link">
+            {{props.row.credentials_link}}
+          </ipfs-link>
+        </q-td>
 			</template>
       <template v-slot:body-cell-arb_status="props">
         <q-td :props="props">

@@ -28,6 +28,13 @@
 						<span>{{props.row.nominee_name}}</span>
 					</q-td>
 			</template>
+      <template v-slot:body-cell-credentials_link="props">
+        <q-td :props="props">
+          <ipfs-link :hash="props.row.credentials_link">
+            {{props.row.credentials_link}}
+          </ipfs-link>
+        </q-td>
+			</template>
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
             <q-btn v-if="isRemoveSelfButtonVisible(props.row.nominee_name)" color="red" label="Remove" @click="removeSelf" />
@@ -42,11 +49,13 @@
 import { GET_TABLE_ROWS } from '../util/fetch'
 import ProfileAvatar from '../../../components/common/ProfileAvatar.vue'
 import NominateSelfModal from './NominateSelfModal.vue'
+import IpfsLink from './IpfsLink.vue'
 
 export default {
   components: {
     ProfileAvatar,
-    NominateSelfModal
+    NominateSelfModal,
+    IpfsLink
   },
   data () {
     return {

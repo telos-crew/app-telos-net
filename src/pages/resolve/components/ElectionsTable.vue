@@ -10,7 +10,9 @@
             {{ props.row.ballot_name }}
           </q-td>
           <q-td key="info_url" :props="props">
-            {{ props.row.info_url }}
+            <ipfs-link :hash="props.row.info_url">
+              {{props.row.info_url}}
+            </ipfs-link>
           </q-td>
           <candidates-cell :props="props"></candidates-cell>
           <q-td key="available_seats" :props="props">
@@ -35,10 +37,12 @@
 import { GET_TABLE_ROWS } from '../util/fetch'
 import CandidatesCell from './CandidatesCell.vue'
 import { ELECTION_STATUS } from '../constants'
+import IpfsLink from './IpfsLink.vue'
 
 export default {
   components: {
-    CandidatesCell
+    CandidatesCell,
+    IpfsLink
   },
   data () {
     return {
