@@ -50,7 +50,7 @@ export default {
   },
   data () {
     return {
-      arbitratorsData: [],
+      arbitratorsData: this.$store.state.resolve.arbitrators,
       columns: [
         { name: 'arb', field: 'arb', label: 'Arbitrator' },
         { name: 'arb_status', field: 'arb_status', label: 'Status' },
@@ -67,30 +67,10 @@ export default {
     getArbStatus (statusCode) {
       return ARBITRATOR_STATUS_LIST[statusCode]
     },
-    async fetchArbitrators () {
-      try {
-        const { rows } = await this.$store.$api.getTableRows({
-          code: 'testtelosarb',
-          scope: 'testtelosarb',
-          table: 'arbitrators'
-        })
-        console.log('fetchArbitrators rows: ', rows)
-        this.arbitratorsData = rows.filter(item => {
-          console.log('item: ', item)
-          console.log(typeof item.term_expiration)
-          if (new Date(item.term_expiration).getTime() > Date.now()) return false
-        })
-      } catch (err) {
-        console.log('fetchArbitrators error: ', err)
-      }
-    },
     isArbExpired (props) {
       console.log('isArbExpired props: ', props)
       return false
     }
-  },
-  mounted: function () {
-    this.fetchArbitrators()
   }
 }
 </script>

@@ -59,7 +59,6 @@
 </template>
 
 <script>
-import { GET_TABLE_ROWS } from '../util/fetch'
 import ProfileAvatar from '../../../components/common/ProfileAvatar.vue'
 import NominateSelfModal from './NominateSelfModal.vue'
 import IpfsLink from './IpfsLink.vue'
@@ -74,6 +73,7 @@ export default {
     return {
       nominate: false,
       config: this.$store.state.resolve.config,
+      nomineeData: this.$store.state.resolve.nominees,
       columns: [
         { name: 'nominee_name',
           label: 'Nominee',
@@ -91,24 +91,10 @@ export default {
           label: 'Actions',
           field: 'actions'
         }
-      ],
-      nomineeData: []
+      ]
     }
   },
   methods: {
-    async fetchNominees () {
-      try {
-        const { rows } = await GET_TABLE_ROWS({
-          code: 'testtelosarb',
-          scope: 'testtelosarb',
-          table: 'nominees',
-          reverse: false
-        })
-        this.nomineeData = rows
-      } catch (err) {
-        console.warn('fetchNominees error: ', err)
-      }
-    },
     isPastAddCandidates () {
       let result = false
       const end = new Date(this.config.end_add_candidates_ts)
@@ -175,13 +161,6 @@ export default {
       if (isAuthenticated && !isAlreadyNominated) return true
       return false
     }
-  },
-  beforeMount: function () {
-    console.log('nominees mounted')
-    this.fetchNominees()
-  },
-  mounted: function () {
-    console.log('nominees mounted this.$store:', this.$store)
   }
 }
 </script>

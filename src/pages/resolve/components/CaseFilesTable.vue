@@ -47,7 +47,6 @@
 
 <script>
 import ProfileAvatar from 'src/components/common/ProfileAvatar.vue'
-import { GET_TABLE_ROWS } from '../constants'
 
 export default {
   components: {
@@ -55,7 +54,7 @@ export default {
   },
   data () {
     return {
-      caseFiles: [],
+      caseFiles: this.$store.state.resolve.case_files,
       columns: [
         { name: 'case_id', label: 'ID', field: 'case_id' },
         { name: 'claimant', label: 'Claimant', field: 'claimant' },
@@ -74,23 +73,7 @@ export default {
   methods: {
     goToCaseFile (caseFileId) {
       this.$router.push({ path: `case-file/${caseFileId}`, params: { caseFileId } })
-    },
-    async fetchCaseFiles () {
-      try {
-        const { rows } = await GET_TABLE_ROWS({
-          code: 'testtelosarb',
-          scope: 'testtelosarb',
-          table: 'casefiles',
-          reverse: true
-        })
-        this.caseFiles = rows
-      } catch (err) {
-        console.log('fetch case files error:', err)
-      }
     }
-  },
-  mounted: function () {
-    this.fetchCaseFiles()
   }
 }
 </script>

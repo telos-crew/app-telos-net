@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import { GET_TABLE_ROWS } from '../util/fetch'
 import CandidatesCell from './CandidatesCell.vue'
 import { ELECTION_STATUS } from '../constants'
 import IpfsLink from './IpfsLink.vue'
@@ -46,6 +45,7 @@ export default {
   },
   data () {
     return {
+      electionData: this.$store.state.resolve.elections,
       columns: [
         { name: 'election_id', label: 'ID', field: 'election_id' },
         { name: 'ballot_name', label: 'Ballot Name', field: 'ballot_name' },
@@ -56,29 +56,8 @@ export default {
         { name: 'end_voting_ts', label: 'End Voting', field: 'end_voting_ts' },
         { name: 'status', label: 'Status', field: 'status' }
       ],
-      electionData: [],
       ELECTION_STATUS
     }
-  },
-  methods: {
-    async fetchElections () {
-      try {
-        const { rows } = await GET_TABLE_ROWS({
-          code: 'testtelosarb',
-          scope: 'testtelosarb',
-          table: 'elections',
-          reverse: true
-        })
-        // console.log('fetchElections data: ', data)
-        this.electionData = rows
-      } catch (err) {
-        console.warn('fetchElections error: ', err)
-      }
-    }
-  },
-  mounted: function () {
-    console.log('mounted')
-    this.fetchElections()
   }
 }
 </script>

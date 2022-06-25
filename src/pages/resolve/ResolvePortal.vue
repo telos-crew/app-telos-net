@@ -77,14 +77,18 @@ export default {
       } catch (err) {
         console.warn('getCaseFiles error: ', err)
       }
+    },
+    fetchAllData () {
+      this.getArbConfig()
+      this.getArbitrators()
+      this.getElections()
+      this.getNominees()
+      this.getCaseFiles()
     }
   },
   mounted: function () {
-    this.getArbConfig()
-    this.getArbitrators()
-    this.getElections()
-    this.getNominees()
-    this.getCaseFiles()
+    this.fetchAllData()
+    setInterval(this.fetchAllData, 10000)
   }
 }
 </script>
