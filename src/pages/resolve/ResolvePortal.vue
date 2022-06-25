@@ -23,7 +23,13 @@
 </template>
 
 <script>
-import { GET_TABLE_ROWS } from './constants'
+import {
+  fetchArbConfig,
+  fetchArbitrators,
+  fetchElections,
+  fetchNominees,
+  fetchCaseFiles
+} from './util'
 
 export default {
   data () {
@@ -32,24 +38,53 @@ export default {
     }
   },
   methods: {
-    async fetchArbConfig () {
+    async getArbConfig () {
       try {
-        const { rows } = await GET_TABLE_ROWS({
-          code: 'testtelosarb',
-          scope: 'testtelosarb',
-          table: 'config',
-          reverse: false
-        })
-        const [config] = rows
-        this.configData = config
+        const config = await fetchArbConfig(this)
         this.$store.commit('resolve/setArbConfig', config)
       } catch (err) {
         console.warn('fetchConfig error: ', err)
       }
+    },
+    async getArbitrators () {
+      try {
+        const arbitrators = await fetchArbitrators(this)
+        this.$store.commit('resolve/setArbitrators', arbitrators)
+      } catch (err) {
+        console.warn('fetchArbitrators error: ', err)
+      }
+    },
+    async getElections () {
+      try {
+        const elections = await fetchElections(this)
+        this.$store.commit('resolve/setElections', elections)
+      } catch (err) {
+        console.warn('getElections error: ', err)
+      }
+    },
+    async getNominees () {
+      try {
+        const nominees = await fetchNominees(this)
+        this.$store.commit('resolve/setNominees', nominees)
+      } catch (err) {
+        console.warn('getNominees error: ', err)
+      }
+    },
+    async getCaseFiles () {
+      try {
+        const caseFiles = await fetchCaseFiles(this)
+        this.$store.commit('resolve/setCaseFiles', caseFiles)
+      } catch (err) {
+        console.warn('getCaseFiles error: ', err)
+      }
     }
   },
   mounted: function () {
-    this.fetchArbConfig()
+    this.getArbConfig()
+    this.getArbitrators()
+    this.getElections()
+    this.getNominees()
+    this.getCaseFiles()
   }
 }
 </script>
