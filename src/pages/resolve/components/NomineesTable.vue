@@ -37,7 +37,20 @@
 			</template>
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
-            <q-btn v-if="isRemoveSelfButtonVisible(props.row.nominee_name)" color="red" label="Remove" @click="removeSelf" />
+          <q-btn-dropdown color="primary" label="Actions" v-if="isUserNominee(props.row.nominee_name)">
+            <q-list>
+              <q-item clickable v-close-popup @click="enterElection">
+                <q-item-section>
+                  <q-item-label>Enter Election</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup @click="removeSelf" v-if="isRemoveSelfButtonVisible(props.row.nominee_name)">
+                <q-item-section>
+                  <q-item-label>Remove</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
         </q-td>
 			</template>
     </q-table>
@@ -105,10 +118,17 @@ export default {
       }
       return result
     },
+    isUserNominee (nomineeName) {
+      const account = this.$store.getters['accounts/account']
+      console.log('isRemoveSelfButtonVisible account: ', account, 'nomineeName: ', nomineeName)
+      const isRowNominee = nomineeName === account
+      if (isRowNominee) return true
+      return false
+    },
     isRemoveSelfButtonVisible (nomineeName) {
       const account = this.$store.getters['accounts/account']
-      const isRowNominee = nomineeName === account
       console.log('isRemoveSelfButtonVisible account: ', account, 'nomineeName: ', nomineeName)
+      const isRowNominee = nomineeName === account
       if (isRowNominee) return true
       return false
     },
@@ -122,6 +142,21 @@ export default {
       }]
       try {
         await this.$store.$api.signTransaction(unregNomineeActions)
+        setTimeout(this.fetchNominees, 5000)
+      } catch (err) {
+        console.log('removeSelf error: ', err)
+      }
+    },
+    async enterElection () {
+      const enterElectionAction = [{
+        account: 'testtelosarb',
+        name: 'candaddlead',
+        data: {
+          nominee: this.$store.getters['accounts/account']
+        }
+      }]
+      try {
+        await this.$store.$api.signTransaction(enterElectionAction)
         setTimeout(this.fetchNominees, 5000)
       } catch (err) {
         console.log('removeSelf error: ', err)
