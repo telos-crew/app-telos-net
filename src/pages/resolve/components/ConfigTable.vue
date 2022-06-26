@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Contract"
-      :data="config"
+      :data="configData"
       :columns="columns"
       row-key="name"
     >
@@ -46,7 +46,6 @@ export default {
   },
   data () {
     return {
-      config: [this.$store.state.resolve.config],
       columns: [
         { name: 'admin', label: 'Admin', field: 'admin' },
         { name: 'current_election_id', label: 'Current Election', field: 'current_election_id' },
@@ -59,6 +58,9 @@ export default {
     }
   },
   computed: {
+    configData () {
+      return [this.$store.state.resolve.config]
+    },
     arbTermDuration () {
       return secondsToDhms(this.config[0].arb_term_length)
     },
