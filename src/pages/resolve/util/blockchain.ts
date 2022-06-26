@@ -48,7 +48,8 @@ export const fetchElections = async (context) => {
 	const { rows } = await context.$store.$api.getTableRows({
 		code: 'testtelosarb',
 		scope: 'testtelosarb',
-		table: 'elections'
+		table: 'elections',
+		reverse: true
 	})
 	return rows
 }
