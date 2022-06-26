@@ -54,7 +54,6 @@ export default {
   },
   data () {
     return {
-      caseFiles: this.$store.state.resolve.case_files,
       columns: [
         { name: 'case_id', label: 'ID', field: 'case_id' },
         { name: 'claimant', label: 'Claimant', field: 'claimant' },
@@ -68,6 +67,11 @@ export default {
         { name: 'update_ts', label: 'Last Updated', field: 'update_ts' },
         { name: 'actions', label: 'Actions', field: 'actions' }
       ]
+    }
+  },
+  computed: {
+    caseFiles () {
+      return this.$store.state.resolve.case_files || []
     }
   },
   methods: {
