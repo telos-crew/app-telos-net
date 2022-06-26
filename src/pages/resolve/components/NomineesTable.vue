@@ -1,5 +1,8 @@
 <template>
-  <div class="q-pa-md">
+  <div
+    class="q-pa-md"
+    v-if="nomineeData"
+  >
     <!-- <q-banner inline-actions class="text-white bg-red" v-if="isPastAddCandidates">
       Candidacy nomination period for current election has already passed
     </q-banner> -->
@@ -39,12 +42,12 @@
         <q-td :props="props">
           <q-btn-dropdown color="primary" label="Actions" v-if="isUserNominee(props.row.nominee_name)">
             <q-list>
-              <q-item clickable v-close-popup @click="enterElection">
+              <q-item clickable v-close-popup @click="enterElection" v-if="isEnterElectionButtonVisible">
                 <q-item-section>
                   <q-item-label>Enter Election</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item clickable v-close-popup @click="removeSelf" v-if="isRemoveSelfButtonVisible(props.row.nominee_name)">
+              <q-item clickable v-close-popup @click="removeSelf" v-if="isRemoveCandidateButtonVisible">
                 <q-item-section>
                   <q-item-label>Remove</q-item-label>
                 </q-item-section>
@@ -54,7 +57,7 @@
         </q-td>
 			</template>
     </q-table>
-    <nominate-self-modal :dialogName="nominate" :close="closeModal" :onSubmit="fetchNominees"></nominate-self-modal>
+    <nominate-self-modal :dialogName="nominate" :close="closeModal"></nominate-self-modal>
   </div>
 </template>
 
@@ -72,8 +75,6 @@ export default {
   data () {
     return {
       nominate: false,
-      config: this.$store.state.resolve.config,
-      nomineeData: this.$store.state.resolve.nominees,
       columns: [
         { name: 'nominee_name',
           label: 'Nominee',
@@ -106,7 +107,6 @@ export default {
     },
     isUserNominee (nomineeName) {
       const account = this.$store.getters['accounts/account']
-      console.log('isRemoveSelfButtonVisible account: ', account, 'nomineeName: ', nomineeName)
       const isRowNominee = nomineeName === account
       if (isRowNominee) return true
       return false
@@ -128,7 +128,6 @@ export default {
       }]
       try {
         await this.$store.$api.signTransaction(unregNomineeActions)
-        setTimeout(this.fetchNominees, 5000)
       } catch (err) {
         console.log('removeSelf error: ', err)
       }
@@ -143,7 +142,6 @@ export default {
       }]
       try {
         await this.$store.$api.signTransaction(enterElectionAction)
-        setTimeout(this.fetchNominees, 5000)
       } catch (err) {
         console.log('removeSelf error: ', err)
       }
@@ -155,11 +153,53 @@ export default {
   },
   computed: {
     isNominateButtonVisible () {
+      if (!this.elections || !this.configData) return
       const isAuthenticated = this.$store.getters['accounts/isAuthenticated']
       const account = this.$store.getters['accounts/account']
       const isAlreadyNominated = this.nomineeData.find(nominee => nominee.nominee_name === account)
-      if (isAuthenticated && !isAlreadyNominated) return true
+      if (isAuthenticated && !isAlreadyNominated) {
+        return true
+      }
       return false
+    },
+    isEnterElectionButtonVisible () {
+      if (!this.elections || !this.configData) return
+      const account = this.$store.getters['accounts/account']
+      const { current_election_id } = this.configData
+      const currentElection = this.elections[current_election_id]
+      const isAlreadyCandidate = currentElection.candidates.find(candidateData => candidateData.name === account)
+      const endAddCand = new Date(currentElection.end_add_candidates_ts).getTime()
+      const isPastAddCandidates = Date.now() > endAddCand
+
+      const isElectionCreated = currentElection.status === 1
+      if (isElectionCreated && !isAlreadyCandidate && !isPastAddCandidates) {
+        return true
+      }
+      return false
+    },
+    isRemoveCandidateButtonVisible () {
+      if (!this.elections || !this.configData) return
+      const account = this.$store.getters['accounts/account']
+      const { current_election_id } = this.configData
+      const currentElection = this.elections[current_election_id]
+      const isAlreadyCandidate = currentElection.candidates.find(candidateData => candidateData.name === account)
+      const endAddCand = new Date(currentElection.end_add_candidates_ts).getTime()
+      const isPastAddCandidates = Date.now() > endAddCand
+
+      const isElectionCreated = currentElection.status === 1
+      if (isElectionCreated && isAlreadyCandidate && !isPastAddCandidates) {
+        return true
+      }
+      return false
+    },
+    nomineeData () {
+      return this.$store.state.resolve.nominees || []
+    },
+    configData () {
+      return this.$store.state.resolve.config || []
+    },
+    elections () {
+      return this.$store.state.resolve.elections || []
     }
   }
 }
