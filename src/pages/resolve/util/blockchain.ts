@@ -26,7 +26,6 @@ export const validateIpfsHash = (url: string) => {
 }
 
 export const fetchArbConfig = async (context) => {
-	console.log('fetchArbConfig context: ', context)
 	const { rows } = await context.$store.$api.getTableRows({
 		code: 'testtelosarb',
 		scope: 'testtelosarb',
@@ -37,7 +36,6 @@ export const fetchArbConfig = async (context) => {
 }
 
 export const fetchArbitrators = async (context) => {
-	console.log('fetchArbitrators executing')
 	const { rows } = await context.$store.$api.getTableRows({
 		code: 'testtelosarb',
 		scope: 'testtelosarb',

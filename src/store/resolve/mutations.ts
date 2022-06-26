@@ -1,5 +1,4 @@
 export const setArbConfig = (state, configData) => {
-  console.log('setArbConfig, configData: ', configData)
   state.config = configData
 }
 
@@ -16,7 +15,6 @@ export const setNominees = (state, nominees) => {
 }
 
 export const setCaseFiles = (state, case_files) => {
-  console.log('setCaseFiles: ', case_files)
   state.case_files = case_files
 }
 

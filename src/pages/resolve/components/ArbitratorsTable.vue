@@ -68,7 +68,6 @@ export default {
       return ARBITRATOR_STATUS_LIST[statusCode]
     },
     isArbExpired (props) {
-      console.log('isArbExpired props: ', props)
       return false
     }
   }
