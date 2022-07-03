@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md" v-if="arbitratorsData">
     <q-table
       title="Arbitrators"
       :data="arbitratorsData"
