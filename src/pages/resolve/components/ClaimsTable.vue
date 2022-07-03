@@ -10,14 +10,19 @@
 				<span>&nbsp;{{getStatus(props.row.status)}}</span>
 			</q-td>
 		</template>
-		<template v-slot:body-cell-summary="props">
+		<template v-slot:body-cell-claim_summary="props">
 			<q-td :props="props">
-				<IpfsLink :hash="props.row.summary"></IpfsLink>
+				<IpfsLink :hash="props.row.claim_summary"></IpfsLink>
 			</q-td>
 		</template>
-		<template v-slot:body-cell-decision="props">
+		<template v-slot:body-cell-decision_link="props">
 			<q-td :props="props">
-				<IpfsLink :hash="props.row.decision"></IpfsLink>
+				<IpfsLink :hash="props.row.decision_link"></IpfsLink>
+			</q-td>
+		</template>
+		<template v-slot:body-cell-response_link="props">
+			<q-td :props="props">
+				<IpfsLink :hash="props.row.response_link"></IpfsLink>
 			</q-td>
 		</template>
 	</q-table>
