@@ -64,15 +64,19 @@ export default {
       return []
     },
     arbTermDuration () {
+      if (!this.configData[0]) return ''
       return secondsToDhms(this.configData[0].arb_term_length)
     },
     electionDuration () {
+      if (!this.configData[0]) return ''
       return secondsToDhms(this.configData[0].election_voting_ts)
     },
     addCandidatesDuration () {
+      if (!this.configData[0]) return ''
       return secondsToDhms(this.configData[0].election_add_candidates_ts)
     },
     runoffElectionDuration () {
+      if (!this.configData[0]) return ''
       return secondsToDhms(this.configData[0].runoff_election_voting_ts)
     }
   }
