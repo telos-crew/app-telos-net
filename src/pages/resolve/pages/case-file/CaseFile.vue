@@ -50,11 +50,13 @@
 <script>
 import { GET_TABLE_ROWS } from '../../constants'
 import ClaimsTable from '../../components/ClaimsTable.vue'
+import ProfileAvatar from 'src/components/common/ProfileAvatar.vue'
 
 export default {
   props: ['id'],
   components: {
-    ClaimsTable
+    ClaimsTable,
+    ProfileAvatar
   },
   data () {
     return {
