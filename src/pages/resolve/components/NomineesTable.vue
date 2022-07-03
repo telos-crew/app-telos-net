@@ -113,7 +113,6 @@ export default {
     },
     isRemoveSelfButtonVisible (nomineeName) {
       const account = this.$store.getters['accounts/account']
-      console.log('isRemoveSelfButtonVisible account: ', account, 'nomineeName: ', nomineeName)
       const isRowNominee = nomineeName === account
       if (isRowNominee) return true
       return false
@@ -147,7 +146,6 @@ export default {
       }
     },
     closeModal () {
-      console.log('closeModal')
       this.nominate = false
     }
   },
@@ -166,8 +164,8 @@ export default {
       if (!this.elections || !this.configData) return
       const account = this.$store.getters['accounts/account']
       const { current_election_id } = this.configData
-      const currentElection = this.elections[current_election_id]
-      const isAlreadyCandidate = currentElection.candidates.find(candidateData => candidateData.name === account)
+      const currentElection = this.elections.find(election => election.election_id === current_election_id)
+      const isAlreadyCandidate = !!currentElection.candidates.find(candidateData => candidateData.name === account)
       const endAddCand = new Date(currentElection.end_add_candidates_ts).getTime()
       const isPastAddCandidates = Date.now() > endAddCand
 
