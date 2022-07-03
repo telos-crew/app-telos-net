@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md" v-if="configData.length > 0">
     <q-table
       title="Contract"
       :data="configData"
@@ -59,19 +59,21 @@ export default {
   },
   computed: {
     configData () {
-      return [this.$store.state.resolve.config]
+      const config = this.$store.state.resolve.config
+      if (config) return [config]
+      return []
     },
     arbTermDuration () {
-      return secondsToDhms(this.config[0].arb_term_length)
+      return secondsToDhms(this.configData[0].arb_term_length)
     },
     electionDuration () {
-      return secondsToDhms(this.config[0].election_voting_ts)
+      return secondsToDhms(this.configData[0].election_voting_ts)
     },
     addCandidatesDuration () {
-      return secondsToDhms(this.config[0].election_add_candidates_ts)
+      return secondsToDhms(this.configData[0].election_add_candidates_ts)
     },
     runoffElectionDuration () {
-      return secondsToDhms(this.config[0].runoff_election_voting_ts)
+      return secondsToDhms(this.configData[0].runoff_election_voting_ts)
     }
   }
 }
