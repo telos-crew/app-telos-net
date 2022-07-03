@@ -72,4 +72,12 @@ export const fetchCaseFiles = async (context) => {
 	return rows
 }
 
+export const fetchClaims = async (context, id: number) => {
+	const { rows } = await context.$store.$api.getTableRows({
+		code: 'testtelosarb',
+		scope: id,
+		table: 'claims'
+	})
+	return rows
+}
 

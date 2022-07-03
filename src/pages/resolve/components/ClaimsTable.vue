@@ -10,15 +10,29 @@
 				<span>&nbsp;{{getStatus(props.row.status)}}</span>
 			</q-td>
 		</template>
+		<template v-slot:body-cell-summary="props">
+			<q-td :props="props">
+				<IpfsLink :hash="props.row.summary"></IpfsLink>
+			</q-td>
+		</template>
+		<template v-slot:body-cell-decision="props">
+			<q-td :props="props">
+				<IpfsLink :hash="props.row.decision"></IpfsLink>
+			</q-td>
+		</template>
 	</q-table>
 </template>
 
 <script>
-import { GET_TABLE_ROWS } from '../util/fetch'
+import { fetchClaims } from '../util'
 import { DECISION_CLASS_LIST } from '../constants/claim'
+import IpfsLink from './IpfsLink.vue'
 
 export default {
   props: ['caseId'],
+  components: {
+    IpfsLink
+  },
   data () {
     return {
       claims: [],
@@ -33,17 +47,12 @@ export default {
     }
   },
   methods: {
-    async fetchClaims () {
+    async getClaims () {
       try {
-        const { rows } = await GET_TABLE_ROWS({
-          code: 'testtelosarb',
-          scope: this.$route.params.id,
-          table: 'claims'
-        })
-        console.log('fetchClaims rows: ', rows)
+        const rows = await fetchClaims(this, this.$route.params.id)
         this.claims = rows
       } catch (err) {
-        console.log('fetchClaims error:', err)
+        console.log('getClaims error:', err)
       }
     },
     getStatus (statusId) {
@@ -51,7 +60,8 @@ export default {
     }
   },
   mounted: function () {
-    this.fetchClaims()
+    this.getClaims()
+    setInterval(() => this.getClaims(this, this.$route.params.id), 10000)
   }
 }
 </script>
