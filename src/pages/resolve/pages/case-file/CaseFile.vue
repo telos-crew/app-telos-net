@@ -76,11 +76,10 @@ export default {
   },
   methods: {
     goToCaseFile (caseFileId) {
-      this.$router.push({ path: `case-file/${caseFileId}`, params: { caseFileId } })
+      this.$router.push({ path: `resolve/case-file/${caseFileId}`, params: { caseFileId } })
     },
     async fetchCaseFile () {
       try {
-        console.log('fetchCaseFile this.$route: ', this.$route)
         const { rows } = await GET_TABLE_ROWS({
           code: 'testtelosarb',
           scope: 'testtelosarb',
