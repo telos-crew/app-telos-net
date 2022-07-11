@@ -39,4 +39,4 @@ export const FETCH_ARBITRATORS = async (): Promise<Arbitrator[]> => {
 	return rows
 }
 
-export const STRING_TO_LOCALE_TIME = (string: string): Date => new Date(string).toLocaleString()
+export const STRING_TO_LOCALE_TIME = (string: string): string => new Date(string).toLocaleString()

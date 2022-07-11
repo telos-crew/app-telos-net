@@ -30,7 +30,7 @@ export const DECISION_CLASS_LIST = [
 	'Misc'
 ]
 
-export const FETCH_CLAIMS = async (case_id: number): Promise<Claim[]> => {
+export const FETCH_CLAIMS = async (case_id: string): Promise<Claim[]> => {
 	const { rows } = await GET_TABLE_ROWS({
 		code: NEXT_PUBLIC_ARBITRATION_CONTRACT,
 		scope: case_id,
