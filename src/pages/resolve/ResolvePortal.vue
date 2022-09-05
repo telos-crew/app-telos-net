@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="heading">
-      <h3>Resolve</h3>
+      <h3>{{getCurrentRouteName}}</h3>
     </section>
     <!-- <div class="nav-tabs">
       <div class="q-pa-md">
@@ -35,6 +35,11 @@ export default {
   data () {
     return {
       tab: 'mails'
+    }
+  },
+  computed: {
+    getCurrentRouteName () {
+      return this.$route.name
     }
   },
   methods: {
