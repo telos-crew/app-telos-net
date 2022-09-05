@@ -1,9 +1,9 @@
 <template>
   <div>
-    <section class="sub-header">
-      <h3>Resolve Portal</h3>
+    <section class="heading">
+      <h3>Resolve</h3>
     </section>
-    <div class="nav-tabs">
+    <!-- <div class="nav-tabs">
       <div class="q-pa-md">
         <div class="q-gutter-y-md" style="max-width: 600px">
           <q-tabs v-model="tab" class="text-teal">
@@ -17,7 +17,7 @@
           </q-tabs>
         </div>
       </div>
-    </div>
+    </div> -->
     <router-view></router-view>
   </div>
 </template>
@@ -93,9 +93,26 @@ export default {
 }
 </script>
 
-<style scoped>
-.sub-header {
-  margin-top: 20px;
+<style lang="scss">
+  @import url('../../css/app.sass');
+</style>
+
+<style scoped lang="scss">
+.heading {
+  h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 92px;
+    line-height: 110px;
+
+    background: linear-gradient(90deg, #071A5F 0%, #571AFF 30%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
 }
 
 .sub-header h3 {

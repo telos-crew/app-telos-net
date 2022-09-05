@@ -1,23 +1,36 @@
 <template>
-  <div>
-		<config-table></config-table>
-    <arbitrators-table></arbitrators-table>
-    <case-files-table></case-files-table>
-  </div>
+	<div class="container">
+		<div class="primary">
+			<Intro />
+		</div>
+		<div class="secondary">
+			<ElectionsStatus />
+		</div>
+	</div>
 </template>
 
 <script>
-import ConfigTable from '../../components/ConfigTable.vue'
-import CaseFilesTable from '../../components/CaseFilesTable.vue'
-import ArbitratorsTable from '../../components/ArbitratorsTable.vue'
+import Intro from './Intro.vue'
+import ElectionsStatus from './ElectionsStatus.vue'
 
 export default {
   components: {
-    ConfigTable,
-    ArbitratorsTable,
-    CaseFilesTable
+    Intro,
+    ElectionsStatus
   }
 }
+
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.container {
+	display: flex;
+	flex-direction: row;
+}
+.primary {
+	flex: 1;
+}
+.secondary {
+	flex: 1
+}
+</style>
