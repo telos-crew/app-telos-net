@@ -1,18 +1,17 @@
 <template>
-  <q-td key="candidates" :props="props">
+  <q-td key="candidates">
     <p class="header">Candidates</p>
-    <div v-for="candidate of props.row.candidates" v-bind:key="candidate.name">
+    <div v-for="candidate of election.candidates" v-bind:key="candidate.name">
       <div class="candidate-item">
         <div class="data">
           <profile-avatar v-bind:account_name="candidate.name" class="avatar-wrap" size="24px"></profile-avatar>
           <div class="info">
-            <div class="text">{{candidate.name}} ({{ candidate.votes }})</div>
+            <div class="text">{{candidate.name}}</div>
+            <div class="text">({{ candidate.votes }})</div>
           </div>
         </div>
         <div class="bar-wrap">
-          {{totalVotes}}
-          {{getPercentage(candidate.name)}}
-          <q-linear-progress :value="100" class="q-mt-md" />
+          <q-linear-progress :value="getPercentage(candidate.name)" class="q-mt-md" />
         </div>
       </div>
     </div>
@@ -24,18 +23,18 @@ import ProfileAvatar from '../../../components/common/ProfileAvatar.vue'
 import { getSymbolInfo } from '../util'
 
 export default {
-  props: ['props', 'totalVotes'],
+  props: ['election', 'totalVotes'],
   components: {
     ProfileAvatar
   },
   methods: {
     getPercentage (searchName) {
       if (!this.totalVotes) return 0
-      const candidateData = this.electionData.candidates.find(({ name }) => name === searchName)
+      const candidateData = this.election.candidates.find(({ name }) => name === searchName)
       if (!candidateData) return 0
       const { votes } = candidateData
       const { whole } = getSymbolInfo(votes)
-      return whole / this.totalVotes
+      return (100 * whole) / this.totalVotes
     }
   }
 }
@@ -57,16 +56,18 @@ td.text-left {
 
   .data {
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
-    width: 230px;
     margin-right: 24px;
 
     .avatar-wrap {
       margin-right: 8px;
     }
     .info {
+      width: 230px;
       height: 24px;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
 
       .text {
         line-height: 24px;

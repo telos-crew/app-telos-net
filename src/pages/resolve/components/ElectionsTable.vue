@@ -2,7 +2,7 @@
   <div class="page">
     <div class="q-pa-md">
       <q-table title="Elections"
-        :data="electionData"
+        :data="electionData || []"
         :columns="columns"
         row-key="name"
         :loading="electionData === null"
@@ -10,8 +10,8 @@
         hide-header
       >
         <template v-slot:body="props">
-          <span>{{JSON.stringify(props.row)}}</span>
-          <q-tr :props="props">
+          <!-- <span>{{JSON.stringify(props)}}</span> -->
+          <q-tr>
             <q-td auto-width>
               <q-btn
                 size="sm"
@@ -21,44 +21,45 @@
                 @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'"
               />
             </q-td>
-            <q-td key="ballot_name" :props="props" class="ballot_name">
+            <q-td key="ballot_name" class="ballot_name">
               <div class="info">
                 <div class="ballot-name">{{ props.row.ballot_name || `${props.row.election_id}` }}</div>
                 <div class="ballot-subtitle">This is some description</div>
               </div>
             </q-td>
-            <q-td key="available_seats" :props="props" class="default">
+            <q-td key="available_seats" class="default">
               <span>Seats</span><br />
               <span>{{ props.row.available_seats }}</span>
             </q-td>
-            <q-td key="end_add_candidates_ts" :props="props" class="default">
+            <q-td key="end_add_candidates_ts" class="default">
               <span>End Nomination</span><br />
               <span>{{ props.row.end_add_candidates_ts }}</span>
             </q-td>
-            <q-td key="begin_voting_ts" :props="props" class="default">
+            <q-td key="begin_voting_ts" class="default">
               <span>Start Voting</span><br />
               <span>{{ props.row.begin_voting_ts }}</span>
             </q-td>
-            <q-td key="end_voting_ts" :props="props" class="default">
+            <q-td key="end_voting_ts" class="default">
               <span>End Voting</span><br />
               <span>{{ props.row.end_voting_ts }}</span>
             </q-td>
 
-            <q-td key="info_url" :props="props">
+            <!-- <q-td key="info_url">
               <ipfs-link :hash="props.row.info_url">
                 {{props.row.info_url}}
               </ipfs-link>
-            </q-td>
-            <q-td key="status" :props="props">
+            </q-td> -->
+            <q-td key="status">
               {{ ELECTION_STATUS[props.row.status] }}
             </q-td>
           </q-tr>
-          <q-tr v-show="props.expand" :props="props" class="expanded-row">
+          <q-tr v-show="props.expand" class="expanded-row">
+            <!-- {{JSON.stringify(props.row)}} -->
             <candidates-cell
-              :props="props"
+              :election="props.row"
               colspan="100%"
               class="text-left"
-              :totalVotes="totalVotes"
+              :totalVotes="totalVotes(props.row)"
             />
           </q-tr>
         </template>
@@ -70,13 +71,13 @@
 <script>
 import CandidatesCell from './CandidatesCell.vue'
 import { ELECTION_STATUS } from '../constants'
-import IpfsLink from './IpfsLink.vue'
+// import IpfsLink from './IpfsLink.vue'
 import { getSymbolInfo } from '../util'
 
 export default {
   components: {
-    CandidatesCell,
-    IpfsLink
+    CandidatesCell
+    // IpfsLink
   },
   data () {
     return {
@@ -93,20 +94,21 @@ export default {
       ELECTION_STATUS
     }
   },
-  computed: {
-    electionData () {
-      return this.$store.state.resolve.elections
-    },
-    totalVotes () {
-      console.log('totalVotes this.electionData: ', this.electionData)
-      if (this.electionData.candidates) {
-        return this.electionData && this.electionData.candidates.reduce((previous, current) => {
+  methods: {
+    totalVotes (election) {
+      if (election && election.candidates) {
+        return election.candidates.reduce((previous, current) => {
           const { whole } = getSymbolInfo(current.votes)
           return previous + whole
         }, 0)
       } else {
         return 0
       }
+    }
+  },
+  computed: {
+    electionData () {
+      return this.$store.state.resolve.elections
     }
   }
 }
