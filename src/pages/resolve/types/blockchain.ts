@@ -72,3 +72,12 @@ export type Arbitrator = {
 	term_expiration: string,
 	languages: number[]
 }
+
+export interface SymbolInfo {
+  tokenSyntax: string,
+  decimalCount: number,
+  whole: string,
+  decimal: string,
+  amount: string,
+  symbol: string
+}

@@ -10,9 +10,16 @@
         hide-header
       >
         <template v-slot:body="props">
+          <span>{{JSON.stringify(props.row)}}</span>
           <q-tr :props="props">
             <q-td auto-width>
-              <q-btn size="sm" color="primary" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+              <q-btn
+                size="sm"
+                color="primary"
+                round
+                dense
+                @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'"
+              />
             </q-td>
             <q-td key="ballot_name" :props="props" class="ballot_name">
               <div class="info">
@@ -47,7 +54,12 @@
             </q-td>
           </q-tr>
           <q-tr v-show="props.expand" :props="props" class="expanded-row">
-            <candidates-cell :props="props" colspan="100%" class="text-left"></candidates-cell>
+            <candidates-cell
+              :props="props"
+              colspan="100%"
+              class="text-left"
+              :totalVotes="totalVotes"
+            />
           </q-tr>
         </template>
       </q-table>
@@ -59,6 +71,7 @@
 import CandidatesCell from './CandidatesCell.vue'
 import { ELECTION_STATUS } from '../constants'
 import IpfsLink from './IpfsLink.vue'
+import { getSymbolInfo } from '../util'
 
 export default {
   components: {
@@ -83,6 +96,17 @@ export default {
   computed: {
     electionData () {
       return this.$store.state.resolve.elections
+    },
+    totalVotes () {
+      console.log('totalVotes this.electionData: ', this.electionData)
+      if (this.electionData.candidates) {
+        return this.electionData && this.electionData.candidates.reduce((previous, current) => {
+          const { whole } = getSymbolInfo(current.votes)
+          return previous + whole
+        }, 0)
+      } else {
+        return 0
+      }
     }
   }
 }

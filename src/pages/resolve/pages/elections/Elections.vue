@@ -8,18 +8,19 @@
         <q-btn color="primary" label="Create a new case" />
       </section>
     </div>
-    <elections-table></elections-table>
+		<nominees-table />
+    <elections-table />
   </div>
 </template>
 
 <script>
 import ElectionsTable from '../../components/ElectionsTable.vue'
-// import NomineesTable from '../../components/NomineesTable.vue'
+import NomineesTable from '../../components/NomineesTable.vue'
 
 export default {
   components: {
-    ElectionsTable
-    // NomineesTable
+    ElectionsTable,
+    NomineesTable
   }
 }
 </script>
