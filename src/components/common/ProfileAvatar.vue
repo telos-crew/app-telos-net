@@ -1,18 +1,31 @@
 <template>
-  <div v-if="avatar" :class="childClass">
-    <q-avatar v-bind:size="size">
-      <img v-bind:src="avatar" />
-    </q-avatar>
+  <div>
+    <div v-if="avatar" :class="childClass">
+      <q-avatar v-bind:size="size">
+        <img v-bind:src="avatar" />
+      </q-avatar>
+    </div>
+    <div v-else>
+      <v-gravatar v-bind:hash="this.hash" :style="styleClass" class="q-avatar" />
+    </div>
   </div>
 </template>
 
 <script>
 import { GET_TABLE_ROWS } from '../../pages/resolve/util/fetch'
+import Gravatar from 'vue-gravatar'
+import md5 from 'md5'
+
 export default {
   props: ['account_name', 'size', 'childClass'],
+  components: {
+    'v-gravatar': Gravatar
+  },
   data () {
     return {
-      avatar: ''
+      avatar: '',
+      hash: md5(this.account_name),
+      styleClass: this.size ? { ...this.childClass, height: this.size, width: this.size } : this.childClass
     }
   },
   async beforeMount () {

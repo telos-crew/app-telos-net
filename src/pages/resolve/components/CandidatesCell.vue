@@ -1,13 +1,14 @@
 <template>
   <q-td key="candidates" :props="props">
     <p class="header">Candidates</p>
-    <ul>
-      <li v-for="candidate of props.row.candidates" v-bind:key="candidate.name">
+    <div v-for="candidate of props.row.candidates" v-bind:key="candidate.name">
+      <div class="candidate-item">
         <profile-avatar v-bind:account_name="candidate.name" class="avatar-wrap" size="24px"></profile-avatar>
-        {{candidate.name}}
-        ({{ candidate.votes }})
-      </li>
-    </ul>
+        <div class="info">
+          <div class="text">{{candidate.name}} ({{ candidate.votes }})</div>
+        </div>
+      </div>
+    </div>
   </q-td>
 </template>
 
@@ -33,17 +34,20 @@ td.text-left {
   text-align: left;
 }
 
-ul {
-  padding-inline-start: 0px;
-  list-style-type: none;
+.candidate-item {
+  padding: 4px;
+  display: flex;
 
-  li {
-    list-style: none;
-    margin-bottom: 6px;
+  .avatar-wrap {
+    margin-right: 8px;
   }
-}
 
-.avatar-wrap {
-  display: inline;
+  .info {
+    height: 24px;
+
+    .text {
+      line-height: 24px;
+    }
+  }
 }
 </style>
