@@ -4,12 +4,19 @@
 		<p class="content">
 			We are currently processing an election and every vote matters, especially yours! Head on over to Decide Voter and select this term’s arbitrators.
 		</p>
-		<q-btn color="primary" label="Open DecideVoter" />
+		<q-btn color="primary" label="View Elections" @click="onClickViewElections" />
+		<q-btn color="primary" label="Vote" />
 	</div>
 </template>
 
 <script>
-
+export default {
+  methods: {
+    onClickViewElections () {
+      this.$router.push('/resolve/elections')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -39,6 +46,11 @@
 		}
 		.inverse-button {
 			border-color: #FFFFFF;
+		}
+
+		.buttons-wrap {
+			display: flex;
+			flex-direction: row;
 		}
 	}
 </style>
