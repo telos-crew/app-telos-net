@@ -156,7 +156,6 @@ export default {
     }
 
     &.ballot_name {
-      display: flex;
       flex-direction: column;
       text-align: left;
 
