@@ -1,30 +1,26 @@
 <template>
-  <div>
-    <!-- <nominees-table></nominees-table> -->
+	<div>
 		<intro-card
 			heading="Create a new case"
 			text="Do you have an asset related issue that you’d like the network’s arbitration system to resolve? We believe that a transparent process benefits everyone."
 			buttonText="Create a new case"
 		/>
-		<!-- <nominees-table /> -->
-    <elections-table />
-  </div>
+		<case-files-table />
+	</div>
 </template>
 
 <script>
-import ElectionsTable from '../../components/ElectionsTable.vue'
-// import NomineesTable from '../../components/NomineesTable.vue'
 import IntroCard from '../../components/IntroCard.vue'
+import CaseFilesTable from '../../components/CaseFilesTable.vue'
 
 export default {
   components: {
-    ElectionsTable,
-    // NomineesTable,
-    IntroCard
+    IntroCard,
+    CaseFilesTable
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 </style>

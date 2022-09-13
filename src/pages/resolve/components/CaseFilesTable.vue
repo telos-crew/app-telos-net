@@ -5,24 +5,29 @@
       :data="caseFiles"
       :columns="columns"
       row-key="name"
+      class="resolve-table"
     >
       <template v-slot:body-cell-claimant="props">
         <q-td :props="props">
-					<profile-avatar :account_name="props.claimant" size="24px" childClass="profile-avatar"></profile-avatar>
-						<span>&nbsp;{{props.row.claimant}}</span>
-					</q-td>
+          <div class="profile-item">
+            <profile-avatar :account_name="props.row.claimant" size="24px" childClass="avatar-wrap"></profile-avatar>
+            <div>&nbsp;{{props.row.claimant}}</div>
+          </div>
+        </q-td>
 			</template>
       <template v-slot:body-cell-respondant="props">
         <q-td :props="props">
-					<profile-avatar :account_name="props.respondant" size="24px" childClass="profile-avatar"></profile-avatar>
-						<span>&nbsp;{{props.row.respondant}}</span>
-					</q-td>
+          <div class="profile-item">
+            <profile-avatar :account_name="props.row.respondant" size="24px" childClass="avatar-wrap"></profile-avatar>
+            <div>&nbsp;{{props.row.respondant}}</div>
+          </div>
+        </q-td>
 			</template>
       <template v-slot:body-cell-arbitrators="props">
         <q-td :props="props">
-					<div v-for="arbitrator of props.row.arbitrators" v-bind:key="arbitrator" class="arbitrator-cell">
-						<profile-avatar :account_name="arbitrator" size="24px" childClass="profile-avatar"></profile-avatar>
-						<span>&nbsp;{{arbitrator}}</span>
+					<div class="arbitrator-cell profile-item">
+						<profile-avatar :account_name="props.row.arbitrators[0]" size="24px" childClass="avatar-wrap"></profile-avatar>
+						<div>&nbsp;{{props.row.arbitrators[0]}}</div>
 					</div>
 				</q-td>
 			</template>
@@ -59,11 +64,8 @@ export default {
         { name: 'claimant', label: 'Claimant', field: 'claimant' },
         { name: 'respondant', label: 'Respondant', field: 'respondant' },
         { name: 'arbitrators', label: 'Arbitrators', field: 'arbitrators' },
-        { name: 'number_claims', label: '# Claims', field: 'number_claims' },
         { name: 'approvals', label: 'Approvals', field: 'approvals' },
-        { name: 'required_langs', label: 'Lang', field: 'required_langs' },
         { name: 'case_status', label: 'Status', field: 'case_status' },
-        { name: 'case_ruling', label: 'Ruling', field: 'case_ruling' },
         { name: 'update_ts', label: 'Last Updated', field: 'update_ts' },
         { name: 'actions', label: 'Actions', field: 'actions' }
       ]
@@ -82,8 +84,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .arbitrator-cell {
 	padding: 10px 0;
+}
+.profile-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    display: inline-block;
+    line-height: 24px;
+  }
 }
 </style>
