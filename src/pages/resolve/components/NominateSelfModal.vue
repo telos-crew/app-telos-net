@@ -1,37 +1,35 @@
 <template>
-	<q-dialog v-model="dialogName" persistent>
-		<q-card style="min-width: 450px">
-			<q-card-section>
-				<div class="text-h6">Nominate Self ({{account_name}})</div>
-			</q-card-section>
+  <q-card style="min-width: 450px">
+    <q-card-section>
+      <div class="text-h6">Nominate Self ({{account_name}})</div>
+    </q-card-section>
 
-			<q-card-section class="q-pt-none">
-				<q-input
-          filled
-          v-model="credentialsLink"
-          label="Credentials Link"
-          bottom-slots
-          hint="46 or 49 character IPFS hash"
-          error-message="Must be valid IPFS hash (ie 'Qmdn7bZ8z25b...')"
-          dense
-          autofocus
-          :error="!isCredentialsLinkValid"
-        />
-			</q-card-section>
+    <q-card-section class="q-pt-none">
+      <q-input
+        filled
+        v-model="credentialsLink"
+        label="Credentials Link"
+        bottom-slots
+        hint="46 or 49 character IPFS hash"
+        error-message="Must be valid IPFS hash (ie 'Qmdn7bZ8z25b...')"
+        dense
+        autofocus
+        :error="!isCredentialsLinkValid"
+      />
+    </q-card-section>
 
-			<q-card-actions align="right" class="text-primary">
-				<q-btn flat label="Submit" @click="nominateSelf" :disable="!isCredentialsLinkValid" />
-				<q-btn flat label="Cancel" @click="close" />
-			</q-card-actions>
-		</q-card>
-	</q-dialog>
+    <q-card-actions align="right" class="text-primary">
+      <q-btn flat label="Submit" @click="nominateSelf" :disable="!isCredentialsLinkValid" />
+      <q-btn flat label="Cancel" @click="close" />
+    </q-card-actions>
+  </q-card>
 </template>
 
 <script>
 import { validateIpfsHash } from '../util'
 
 export default {
-  props: ['dialogName', 'close', 'onSubmit'],
+  props: ['close', 'onSubmit'],
   data () {
     return {
       credentialsLink: ''
@@ -44,14 +42,6 @@ export default {
     account_name () {
       return this.$store.state.accounts.account
     }
-    // dialogNameValue: {
-    //   get () {
-    //     return this.dialogName
-    //   },
-    //   set (newValue) {
-    //     this.dialogName = newValue
-    //   }
-    // }
   },
   methods: {
     async nominateSelf () {

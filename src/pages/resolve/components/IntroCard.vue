@@ -2,8 +2,9 @@
 	<div class="intro">
 		<section class="info">
 			<h3>{{heading}}</h3>
-			<p class="first">{{text}}</p>
-			<q-btn color="primary" :label="buttonText" />
+			<p v-if="text" class="first">{{text}}</p>
+			<slot></slot>
+			<q-btn v-if="buttonText" color="primary" :label="buttonText" />
 		</section>
 	</div>
 </template>
@@ -16,8 +17,7 @@ export default {
 
 <style lang="scss" scoped>
 	.info {
-		margin-right: 80px;
-    width: 40%;
+		margin-right: 60px;
     margin-bottom: 38px;
 
 		h3 {
