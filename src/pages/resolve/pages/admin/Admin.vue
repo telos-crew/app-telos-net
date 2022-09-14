@@ -35,7 +35,6 @@
           icon="add_comment"
         >
           Users are able to vote for the candidate(s) of choice.
-
         </q-step>
         <q-step
           :name="'election-finalization'"
@@ -46,11 +45,12 @@
           action to process the vote results and begin the arbitration term
           for the winning candidates. Users will also be able to start
           nominating themselves for the next election, whenever that may happen to be.
+          <br /><br />
+          <q-btn @click="endElection" color="primary" label="Finalize Election" />
         </q-step>
       </q-stepper>
     </div>
     <div class="form-wrapper">
-      {{form}}
       <q-dialog v-model="form">
         <init-election-modal v-if="formType === 'initelection'" :close="closeModal" />
         <begin-voting-modal v-if="formType === 'beginvoting'" :close="closeModal" />
@@ -77,6 +77,19 @@ export default {
   methods: {
     closeModal () {
       this.form = null
+    },
+    async endElection () {
+      const endElectionActions = [
+        {
+          account: 'testtelosarb',
+          name: 'endelection'
+        }
+      ]
+      try {
+        await this.$store.$api.signTransaction(endElectionActions)
+      } catch (err) {
+        console.log('endElection error: ', err)
+      }
     }
   },
   computed: {
@@ -96,7 +109,7 @@ export default {
             return 'election-finalization'
           }
         }
-        return 1
+        return status
       }
       return null
     }
