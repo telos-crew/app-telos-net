@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    {{electionStatus}}
     <div class="q-pa-md stepper-wrap">
       <q-stepper
         v-model="electionStatus"
@@ -20,13 +21,21 @@
         </q-step>
 
         <q-step
-          :name="1"
-          title="Election Preparation"
+          :name="'candidate-registration'"
+          title="Candidate Registration"
           icon="assignment"
         >
           Nominees are able to add and remove themselves as an official candidate to the upcoming election.
+        </q-step>
+
+        <q-step
+          :name="'election-ready'"
+          title="Election Ready to Start"
+          icon="assignment"
+        >
+          Election is ready to start pending administration launch
           <br /><br />
-          <q-btn @click="form = true; formType = 'beginvoting'" color="primary" label="Start Voting" />
+          <q-btn @click="form = true; formType = 'beginvoting'" color="primary" label="Start Election" />
         </q-step>
 
         <q-step
@@ -36,6 +45,7 @@
         >
           Users are able to vote for the candidate(s) of choice.
         </q-step>
+
         <q-step
           :name="'election-finalization'"
           title="Election Finalization"
@@ -98,8 +108,18 @@ export default {
       if (resolve && resolve.config && resolve.elections) {
         const { current_election_id } = resolve
         const currentElection = resolve.elections.find(e => e.id === current_election_id)
+        console.log('currentElection: ', currentElection)
         if (!currentElection) return null
-        const { status, end_voting_ts } = currentElection
+        const { status, end_voting_ts, end_add_candidates_ts } = currentElection
+        if (status === 1) {
+          const endAddCandidateUnixTimestamp = new Date(`${end_add_candidates_ts}Z`).getTime()
+          const rightNow = new Date().getTime()
+          if (endAddCandidateUnixTimestamp > rightNow) {
+            return 'candidate-registration'
+          } else {
+            return 'election-ready'
+          }
+        }
         if (status === 2) { // see if voting period has ended
           const endVotingUnixTimestamp = new Date(`${end_voting_ts}Z`).getTime()
           const rightNow = new Date().getTime()
