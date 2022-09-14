@@ -15,6 +15,8 @@
           Admin is able to set the configuration parameters for the smart contract,
           including election duration, arbitration term length, and number of
           arbitration seats to be filled.
+          <br /><br />
+          <q-btn @click="form = true" color="primary" label="Prepare Election" />
         </q-step>
 
         <q-step
@@ -45,14 +47,32 @@
         </q-step>
       </q-stepper>
     </div>
-    <div class="other">
-
+    <div class="form-wrapper">
+      {{form}}
+      <q-dialog v-model="form">
+        <init-election-modal :close="closeModal" />
+      </q-dialog>
     </div>
   </div>
 </template>
 
 <script>
+import InitElectionModal from '../../components/InitElectionModal.vue'
+
 export default {
+  components: {
+    InitElectionModal
+  },
+  data () {
+    return {
+      form: null
+    }
+  },
+  methods: {
+    closeModal () {
+      this.form = null
+    }
+  },
   computed: {
     electionStatus () {
       const resolve = this.$store.state.resolve
@@ -86,7 +106,7 @@ export default {
   .stepper-wrap {
     flex: 1;
   }
-  .other {
+  .form-wrapper {
     flex: 1;
   }
 }
