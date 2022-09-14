@@ -1,7 +1,8 @@
 <template>
   <div class="page">
     <div class="q-pa-md">
-      <q-table title="Elections"
+      <q-table
+        title="Elections"
         :data="electionData || []"
         :columns="columns"
         row-key="name"
@@ -11,14 +12,15 @@
       >
         <template v-slot:body="props">
           <!-- <span>{{JSON.stringify(props)}}</span> -->
-          <q-tr>
+          <q-tr :props="props">
             <q-td auto-width>
               <q-btn
                 size="sm"
                 color="primary"
                 round
                 dense
-                @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'"
+                @click="toggleRow(props.row.election_id)"
+                :icon="expandedRows[props.row.election_id] ? 'remove' : 'add'"
               />
             </q-td>
             <q-td key="ballot_name" class="ballot_name">
@@ -53,7 +55,7 @@
               {{ ELECTION_STATUS[props.row.status] }}
             </q-td>
           </q-tr>
-          <q-tr v-show="props.expand" class="expanded-row">
+          <q-tr v-show="expandedRows[props.row.election_id]" class="expanded-row" :props="props">
             <!-- {{JSON.stringify(props.row)}} -->
             <candidates-cell
               :election="props.row"
@@ -91,6 +93,7 @@ export default {
         { name: 'end_voting_ts', label: 'End Voting', field: 'end_voting_ts' },
         { name: 'status', label: 'Status', field: 'status' }
       ],
+      expandedRows: [],
       ELECTION_STATUS
     }
   },
@@ -104,6 +107,9 @@ export default {
       } else {
         return 0
       }
+    },
+    toggleRow (electionId) {
+      this.expandedRows[electionId] = !this.expandedRows[electionId]
     }
   },
   computed: {
