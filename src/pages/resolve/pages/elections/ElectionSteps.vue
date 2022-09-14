@@ -20,13 +20,26 @@
         </q-step>
 
         <q-step
-          :name="1"
+          :name="'candidate-registration'"
           title="Candidate Registration"
           icon="assignment"
         >
           Nominees are able to add and remove themselves as an official candidate to the upcoming election.
           <br /><br />
-          <q-btn @click="form = true; formType = 'beginvoting'" color="primary" label="Register as Candidate" />
+          <q-btn
+						v-if="isRegisterCandidateButtonVisible"
+						@click="registerSelfCandidate"
+						color="primary"
+						label="Register as Candidate"
+					/>
+        </q-step>
+
+        <q-step
+          :name="'election-ready'"
+          title="Election Ready to Start"
+          icon="assignment"
+        >
+          Election is ready to start pending administration launch
         </q-step>
 
         <q-step
@@ -35,8 +48,6 @@
           icon="add_comment"
         >
           Users are able to vote for the candidate(s) of choice.
-          <br /><br />
-          <q-btn @click="form = true; formType = 'beginvoting'" color="primary" label="Vote" />
         </q-step>
         <q-step
           :name="'election-finalization'"
@@ -90,16 +101,53 @@ export default {
       } catch (err) {
         console.log('endElection error: ', err)
       }
+    },
+    async registerSelfCandidate () {
+      const { account } = this.$store.state.accounts
+      const endElectionActions = [
+        {
+          account: 'testtelosarb',
+          name: 'candaddlead',
+          data: {
+            nominee: account
+          }
+        }
+      ]
+      try {
+        await this.$store.$api.signTransaction(endElectionActions)
+      } catch (err) {
+        console.log('endElection error: ', err)
+      }
     }
   },
   computed: {
+    isRegisterCandidateButtonVisible () {
+      const { resolve, accounts } = this.$store.state
+      const { account } = accounts
+      const { config, elections, nominees } = resolve
+      const { current_election_id } = config
+      const currentElection = elections.find(e => e.id === current_election_id)
+      const { candidates } = currentElection
+      const foundNominee = nominees.find(nominee => nominee.nominee_name === account)
+      const foundCandidate = candidates.find(candidate => candidate.name === account)
+      return !!account && foundNominee && !foundCandidate
+    },
     electionStatus () {
       const resolve = this.$store.state.resolve
       if (resolve && resolve.config && resolve.elections) {
-        const { current_election_id } = resolve
+        const { current_election_id } = resolve.config
         const currentElection = resolve.elections.find(e => e.id === current_election_id)
         if (!currentElection) return null
-        const { status, end_voting_ts } = currentElection
+        const { status, end_voting_ts, end_add_candidates_ts } = currentElection
+        if (status === 1) {
+          const endAddCandidateUnixTimestamp = new Date(`${end_add_candidates_ts}Z`).getTime()
+          const rightNow = new Date().getTime()
+          if (endAddCandidateUnixTimestamp > rightNow) {
+            return 'candidate-registration'
+          } else {
+            return 'election-ready'
+          }
+        }
         if (status === 2) { // see if voting period has ended
           const endVotingUnixTimestamp = new Date(`${end_voting_ts}Z`).getTime()
           const rightNow = new Date().getTime()
