@@ -16,7 +16,7 @@
           including election duration, arbitration term length, and number of
           arbitration seats to be filled.
           <br /><br />
-          <q-btn @click="form = true" color="primary" label="Prepare Election" />
+          <q-btn @click="form = true; formType = 'initelection'" color="primary" label="Prepare Election" />
         </q-step>
 
         <q-step
@@ -25,6 +25,8 @@
           icon="assignment"
         >
           Nominees are able to add and remove themselves as an official candidate to the upcoming election.
+          <br /><br />
+          <q-btn @click="form = true; formType = 'beginvoting'" color="primary" label="Start Voting" />
         </q-step>
 
         <q-step
@@ -50,7 +52,8 @@
     <div class="form-wrapper">
       {{form}}
       <q-dialog v-model="form">
-        <init-election-modal :close="closeModal" />
+        <init-election-modal v-if="formType === 'initelection'" :close="closeModal" />
+        <begin-voting-modal v-if="formType === 'beginvoting'" :close="closeModal" />
       </q-dialog>
     </div>
   </div>
@@ -58,14 +61,17 @@
 
 <script>
 import InitElectionModal from '../../components/InitElectionModal.vue'
+import BeginVotingModal from '../../components/BeginVotingModal.vue'
 
 export default {
   components: {
-    InitElectionModal
+    InitElectionModal,
+    BeginVotingModal
   },
   data () {
     return {
-      form: null
+      form: null,
+      formType: null
     }
   },
   methods: {
@@ -90,7 +96,7 @@ export default {
             return 'election-finalization'
           }
         }
-        return status
+        return 1
       }
       return null
     }

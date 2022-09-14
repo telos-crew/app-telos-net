@@ -1,8 +1,9 @@
 import { SymbolInfo } from '../types'
 
-export const validateName = (name: string) => {
-  const validCharacters = 'abcdefghijklmnopqrstuvwxyz123456'
-  const validCharacterList = validCharacters.split('')
+const VALID_CHARACTERS = 'abcdefghijklmnopqrstuvwxyz123456'
+
+export const validateId = (name: string) => {
+  const validCharacterList = VALID_CHARACTERS.split('')
   let isValid = true
   if (name.includes('.')) {
     if (name.length < 3 || name.length > 12) {
@@ -20,6 +21,17 @@ export const validateName = (name: string) => {
     }
   }
   return isValid
+}
+
+export const generateRandomId = (length: number = 12) => {
+  let result = ''
+  const characters = 'abcdefghijklmnopqrstuvwxyz12345'
+  const charactersLength = characters.length
+  for (let i = 0; i < length; i++) {
+    const char = characters.charAt(Math.floor(Math.random() * charactersLength))
+    result += char
+  }
+  return result
 }
 
 export const validateIpfsHash = (url: string) => {
