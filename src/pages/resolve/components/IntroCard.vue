@@ -5,6 +5,7 @@
 			<p v-if="text" class="first">{{text}}</p>
 			<slot></slot>
 			<q-btn v-if="buttonText" color="primary" :label="buttonText" />
+			<slot name="buttons"></slot>
 		</section>
 	</div>
 </template>
