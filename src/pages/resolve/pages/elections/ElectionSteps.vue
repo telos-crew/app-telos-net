@@ -128,16 +128,17 @@ export default {
       if (!config || !elections || !nominees) return false
       const { current_election_id } = config
       const currentElection = elections.find(e => e.election_id === current_election_id)
+      if (!currentElection) return false
       const { candidates } = currentElection
       const foundNominee = nominees.find(nominee => nominee.nominee_name === account)
       const foundCandidate = candidates.find(candidate => candidate.name === account)
       return !!account && foundNominee && !foundCandidate
     },
     electionStatus () {
-      const resolve = this.$store.state.resolve
+      const { resolve } = this.$store.state
       if (resolve && resolve.config && resolve.elections) {
         const { current_election_id } = resolve.config
-        const currentElection = resolve.elections.find(e => e.id === current_election_id)
+        const currentElection = resolve.elections.find(e => e.election_id === current_election_id)
         if (!currentElection) return null
         const { status, end_voting_ts, end_add_candidates_ts } = currentElection
         if (status === 1) {
