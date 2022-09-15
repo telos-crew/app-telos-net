@@ -70,7 +70,7 @@
 
 <script>
 import { GET_TABLE_ROWS } from '../../constants'
-import { FETCH_ACTIONS_HISTORY } from '../../util/case'
+import { FETCH_CASE_ACTIONS_HISTORY } from '../../util/case'
 import ClaimsTable from '../../components/ClaimsTable.vue'
 import ProfileAvatar from 'src/components/common/ProfileAvatar.vue'
 import IntroCard from '../../components/IntroCard.vue'
@@ -97,7 +97,8 @@ export default {
         { name: 'case_ruling', label: 'Ruling', field: 'case_ruling' },
         { name: 'update_ts', label: 'Last Updated', field: 'update_ts' },
         { name: 'actions', label: 'Actions', field: 'actions' }
-      ]
+      ],
+      caseActionsHistory: []
     }
   },
   methods: {
@@ -120,9 +121,11 @@ export default {
       }
     }
   },
-  mounted: function () {
+  mounted: async function () {
     this.fetchCaseFile()
-    FETCH_ACTIONS_HISTORY(this)
+    const actionsHistory = await FETCH_CASE_ACTIONS_HISTORY(this, this.$route.params.id)
+    console.log('actionsHistory: ', actionsHistory)
+    this.caseActionsHistory = actionsHistory
   },
   computed: {
     caseData () {

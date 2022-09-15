@@ -1,7 +1,8 @@
 import { fetchCaseFiles } from './blockchain'
 import axios from 'axios'
+import { HyperionAction } from '../types'
 
-export const FETCH_ACTIONS = async (context, params) => {
+export const FETCH_DELTAS = async (context, params) => {
   const { data } = await axios('https://testnet.telos.caleos.io/v2/history/get_deltas', {
     params: {
       limit: 40,
@@ -19,20 +20,79 @@ export const FETCH_ACTIONS = async (context, params) => {
   return data
 }
 
-export const FETCH_ACTIONS_HISTORY = async (context: any, case_id: number) => {
+export const FETCH_ACTIONS = async (context, params) => {
+  const { data } = await axios('https://testnet.telos.caleos.io/v2/history/get_actions', {
+    params: {
+      limit: 40,
+      skip: params.skip,
+      account: 'testtelosarb',
+      code: 'testtelosarb',
+      // track: '',
+      // filter: '',
+      sort: 'desc',
+      // after: '',
+      // before: '',
+      // simple: ''
+      ...params
+    }
+  })
+  return data
+}
+
+export const FETCH_CASE_ACTIONS_HISTORY = async (context: any, case_id: number) => {
   try {
-    const [caseFile] = await fetchCaseFiles(context, case_id)
-    let skip = 40
+    let skipDeltas = 0
+    let skipActions = 0
+    let earliestBlock
+    const totalActions = []
     while (true) {
-      const { deltas } = await FETCH_ACTIONS(context, {
-        after: caseFile.created_at,
-        before: caseFile.updated_at,
-        skip
+      const { deltas } = await FETCH_DELTAS(context, {
+        skip: skipDeltas
+      })
+      deltas.forEach(({ table, primary_key, block_num }) => {
+        if (table === 'casefiles' && primary_key === case_id) {
+          if (!earliestBlock || earliestBlock > block_num) {
+            earliestBlock = block_num
+          }
+        }
       })
       if (deltas.length === 0) break
-      skip += 40
+      skipDeltas += 40
     }
+
+    while (true) {
+      const { actions } = await FETCH_ACTIONS(context, {
+        skip: skipActions
+      })
+      actions.forEach(({ table, primary_key, block_num }) => {
+        if (table === 'casefiles' && primary_key === case_id) {
+          if (!earliestBlock || earliestBlock > block_num) {
+            earliestBlock = block_num
+          }
+        }
+      })
+      totalActions.push(...actions)
+      if ((actions.block_num < earliestBlock) || !actions.length) break
+      skipActions += 40
+    }
+    console.log('totalActions: ', totalActions)
+    const caseActionsHistory = FILTER_CASE_FILE_ACTIONS(totalActions, case_id)
+    return caseActionsHistory
   } catch (err) {
     console.log('FETCH_ACTIONS_HISTORY-> fetchCaseFiles error: ', err)
   }
+}
+
+// filecase, readycase, makeoffer, respondoffer, startcase, assignarb, respond, acceptclaim
+export const FILTER_CASE_FILE_ACTIONS = (actions: any[], case_id: number) => {
+  console.log('actions.length: ', actions.length)
+  const filteredActions = actions.filter((action: HyperionAction) => {
+    console.log('action: ', action)
+    if (action.act && action.act.data && action.act.data.case_id === case_id) {
+      return true
+    }
+    return false
+  })
+  console.log('filteredActions: ', filteredActions, case_id)
+  return filteredActions
 }
