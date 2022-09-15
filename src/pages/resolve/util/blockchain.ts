@@ -77,11 +77,13 @@ export const fetchNominees = async (context) => {
   return rows
 }
 
-export const fetchCaseFiles = async (context) => {
+export const fetchCaseFiles = async (context, case_id?: number) => {
   const { rows } = await context.$store.$api.getTableRows({
     code: 'testtelosarb',
     scope: 'testtelosarb',
     table: 'casefiles',
+    upper_limit: case_id || null,
+    lower_limit: case_id || null,
     reverse: true
   })
   return rows

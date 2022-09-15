@@ -70,6 +70,7 @@
 
 <script>
 import { GET_TABLE_ROWS } from '../../constants'
+import { FETCH_ACTIONS_HISTORY } from '../../util/case'
 import ClaimsTable from '../../components/ClaimsTable.vue'
 import ProfileAvatar from 'src/components/common/ProfileAvatar.vue'
 import IntroCard from '../../components/IntroCard.vue'
@@ -121,6 +122,7 @@ export default {
   },
   mounted: function () {
     this.fetchCaseFile()
+    FETCH_ACTIONS_HISTORY(this)
   },
   computed: {
     caseData () {
