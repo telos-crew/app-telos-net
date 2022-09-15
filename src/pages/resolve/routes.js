@@ -5,9 +5,10 @@ import Cases from './pages/cases/Cases.vue'
 import CaseFile from './pages/case-file/CaseFile.vue'
 
 export const resolveRoutes = [
-  { path: '/', component: Home, name: 'Resolve' },
   { path: 'admin', component: Admin, name: 'Admin' },
   { path: 'elections', component: Elections, name: 'Elections' },
   { path: 'cases', component: Cases, name: 'Cases' },
-  { path: 'case/:id', component: CaseFile }
+  // todo: special name case may need to be changed
+  { path: 'case/:id', component: CaseFile, name: 'Case', params: { dynamicName: true }, props: true },
+  { path: '/', component: Home, name: 'Resolve' }
 ]

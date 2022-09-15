@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     goToCaseFile (caseFileId) {
-      this.$router.push({ path: `resolve/case-file/${caseFileId}`, params: { caseFileId } })
+      this.$router.push({ path: `resolve/case/${caseFileId}`, params: { caseFileId } })
     },
     async fetchCaseFile () {
       try {

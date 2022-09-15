@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     goToCaseFile (caseFileId) {
-      this.$router.push({ path: `case-file/${caseFileId}`, params: { caseFileId } })
+      this.$router.push({ path: `case/${caseFileId}`, params: { caseFileId } })
     }
   }
 }

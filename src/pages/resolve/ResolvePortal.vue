@@ -40,6 +40,9 @@ export default {
   },
   computed: {
     getCurrentRouteName () {
+      if (this.$route.params && this.$route.params.id) {
+        return `${this.$route.name} ${this.$route.params.id}`
+      }
       return this.$route.name
     }
   },
