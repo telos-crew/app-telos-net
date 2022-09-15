@@ -92,7 +92,8 @@ export default {
       const endElectionActions = [
         {
           account: 'testtelosarb',
-          name: 'endelection'
+          name: 'endelection',
+          data: {}
         }
       ]
       try {
