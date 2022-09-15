@@ -125,8 +125,9 @@ export default {
       const { resolve, accounts } = this.$store.state
       const { account } = accounts
       const { config, elections, nominees } = resolve
+      if (!config || !elections || !nominees) return false
       const { current_election_id } = config
-      const currentElection = elections.find(e => e.id === current_election_id)
+      const currentElection = elections.find(e => e.election_id === current_election_id)
       const { candidates } = currentElection
       const foundNominee = nominees.find(nominee => nominee.nominee_name === account)
       const foundCandidate = candidates.find(candidate => candidate.name === account)
