@@ -81,7 +81,8 @@ export const fetchCaseFiles = async (context) => {
   const { rows } = await context.$store.$api.getTableRows({
     code: 'testtelosarb',
     scope: 'testtelosarb',
-    table: 'casefiles'
+    table: 'casefiles',
+    reverse: true
   })
   return rows
 }
