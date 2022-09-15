@@ -50,7 +50,7 @@ export type Nominee = {
 }
 
 export type Config = {
-	admin: string
+	admin: string,
 	arb_term_length: number,
 	available_funds: string,
 	contract_version: string,
@@ -80,4 +80,40 @@ export interface SymbolInfo {
   decimal: string,
   amount: string,
   symbol: string
+}
+
+export type HyperionDelta = {
+	timestamp: string,
+	present: number,
+	code: string,
+	scope: string,
+	table: string,
+	primary_key: string,
+	payer: string,
+	block_num: number,
+	block_id: string,
+	data: any
+}
+
+export type HyperionAction = {
+	'@timestamp': string,
+	timestamp: string,
+	block_num: number,
+	trx_id: string,
+	act: {
+		account: string,
+		name: string,
+		authorization: { actor: string, permission: string }[],
+		data: any,
+	},
+	notified: string[],
+	cpu_usage_us: number,
+	net_usage_words: number,
+	account_ram_deltas: { account: string, delta: number }[],
+	global_sequence: number,
+	receiver: string,
+	producer: string,
+	action_ordinal: 1,
+	creator_action_ordinal: number,
+	signatures: string[]
 }
