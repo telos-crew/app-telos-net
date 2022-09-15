@@ -40,6 +40,7 @@ export default {
   },
   data () {
     return {
+      interval: null,
       claims: [],
       columns: [
         { name: 'claim_id', label: 'ID', field: 'claim_id' },
@@ -64,9 +65,12 @@ export default {
       return DECISION_CLASS_LIST[statusId]
     }
   },
-  mounted: function () {
+  mounted () {
     this.getClaims()
-    setInterval(() => this.getClaims(this, this.$route.params.id), 10000)
+    this.interval = setInterval(() => this.getClaims(this, this.$route.params.id), 10000)
+  },
+  unmounted () {
+    clearInterval(this.interval)
   }
 }
 </script>

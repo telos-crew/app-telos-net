@@ -34,7 +34,8 @@ import {
 export default {
   data () {
     return {
-      tab: 'mails'
+      tab: 'mails',
+      interval: null
     }
   },
   computed: {
@@ -91,9 +92,12 @@ export default {
       this.getCaseFiles()
     }
   },
-  mounted: function () {
+  mounted () {
     this.fetchAllData()
-    setInterval(this.fetchAllData, 10000)
+    this.interval = setInterval(this.fetchAllData, 10000)
+  },
+  unmounted () {
+    clearInterval(this.interval)
   }
 }
 </script>
