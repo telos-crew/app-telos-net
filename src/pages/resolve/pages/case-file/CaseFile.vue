@@ -16,53 +16,10 @@
         </intro-card>
       </div>
       <div class="part">
-        hello
+        <case-steps :caseFile="caseFile[0]" />
       </div>
     </div>
     <div class="q-pa-md">
-      <q-table
-        title="Case"
-        :data="caseFile"
-        :columns="columns"
-        row-key="name"
-      >
-        <template v-slot:body-cell-claimant="props">
-          <q-td :props="props">
-            <profile-avatar :account_name="props.claimant" size="24px" childClass="profile-avatar"></profile-avatar>
-              <span>&nbsp;{{props.row.claimant}}</span>
-            </q-td>
-        </template>
-        <template v-slot:body-cell-respondant="props">
-          <q-td :props="props">
-            <profile-avatar :account_name="props.respondant" size="24px" childClass="profile-avatar"></profile-avatar>
-              <span>&nbsp;{{props.row.respondant}}</span>
-            </q-td>
-        </template>
-        <template v-slot:body-cell-arbitrators="props">
-          <q-td :props="props">
-            <div v-for="arbitrator of props.row.arbitrators" v-bind:key="arbitrator" class="arbitrator-cell">
-              <profile-avatar :account_name="arbitrator" size="24px" childClass="profile-avatar"></profile-avatar>
-              <span>&nbsp;{{arbitrator}}</span>
-            </div>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-actions="props">
-          <q-td :props="props">
-            <div>
-              <q-btn-dropdown color="primary" label="Actions">
-                <q-list>
-                  <q-item clickable v-close-popup @click="goToCaseFile(props.row.case_id)">
-                    <q-item-section>
-                      <q-item-label>View</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
-            </div>
-          </q-td>
-        </template>
-      </q-table>
-      <br /><br />
       <claims-table></claims-table>
     </div>
   </div>
@@ -72,15 +29,15 @@
 import { GET_TABLE_ROWS } from '../../constants'
 import { FETCH_CASE_ACTIONS_HISTORY } from '../../util/case'
 import ClaimsTable from '../../components/ClaimsTable.vue'
-import ProfileAvatar from 'src/components/common/ProfileAvatar.vue'
 import IntroCard from '../../components/IntroCard.vue'
+import CaseSteps from '../cases/CaseSteps.vue'
 
 export default {
   props: ['id'],
   components: {
     ClaimsTable,
-    ProfileAvatar,
-    IntroCard
+    IntroCard,
+    CaseSteps
   },
   data () {
     return {
